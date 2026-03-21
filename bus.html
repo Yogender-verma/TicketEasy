@@ -1,0 +1,287 @@
+<html>
+<head>
+<title>Bus</title>
+<link rel="icon" href="logo.ico">
+
+<style>
+body {
+margin: 0;
+background-image: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+}
+
+h2{
+text-align: center;
+margin-top: 10px;
+color:#262626;
+}
+
+.bus-card {
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+width: 70%;
+margin: 20px auto;
+padding: 25px;
+border-radius: 12px;
+box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.row {
+display: flex;
+gap: 20px;
+margin-bottom: 20px;
+}
+
+.field {
+flex: 1;
+}
+
+label {
+display: block;
+font-size: 12px;
+color: #555;
+margin-bottom: 6px;
+font-weight: bold;
+}
+
+select, input {
+width: 100%;
+padding: 12px;
+border-radius: 6px;
+border: 1px solid #ccc;
+font-size: 14px;
+}
+
+.search-btn {
+background-color: #00bfff;
+color: white;
+border: none;
+padding: 14px;
+font-size: 16px;
+width: 100%;
+border-radius: 8px;
+cursor: pointer;
+font-weight: bold;
+}
+
+.search-btn:hover {
+background-color: #00bfff;
+}
+
+.footer {
+text-align: center;
+margin-top: 40px;
+font-size: 13px;
+color: gray;
+}
+
+.famous-bus-wrapper {
+width: 85%;
+margin: 40px auto;
+padding: 40px;
+background:  linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+border-radius: 15px;
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+
+.famous-bus-wrapper h2 {
+font-size: 28px;
+margin-bottom: 30px;
+color: #333;
+}
+
+.bus-route-grid {
+display: flex;
+justify-content: center;
+gap: 25px;
+flex-wrap: wrap;
+}
+
+.bus-route-box {
+width: 260px;
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+transition: all 0.3s ease;
+text-align: left;
+}
+
+.bus-route-box:hover {
+transform: translateY(-8px);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.bus-route-box h3 {
+margin-bottom: 10px;
+font-size: 18px;
+}
+
+.bus-route-box p {
+font-size: 14px;
+margin: 6px 0;
+color: #555;
+}
+
+.bus-route-box .fare {
+font-size: 16px;
+font-weight: bold;
+color: green;
+margin: 10px 0;
+}
+
+.bus-route-box button {
+width: 100%;
+padding: 8px;
+border: none;
+border-radius: 6px;
+background: #FF4400;
+cursor: pointer;
+transition: 0.3s ease;
+}
+
+.bus-route-box button:hover {
+color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Book Bus Tickets</h2>
+
+<div class="bus-card">
+
+<div class="row">
+
+<div class="field">
+<label>From</label>
+<select id="fromCity">
+<option>Select Source City</option>
+<option>Hyderabad</option>
+<option>Bengaluru</option>
+<option>Chennai</option>
+<option>Vijayawada</option>
+<option>Mumbai</option>
+</select>
+</div>
+
+<div class="field">
+<label>To</label>
+<select id="toCity">
+<option>Select Destination City</option>
+<option>Bengaluru</option>
+<option>Chennai</option>
+<option>Coimbatore</option>
+<option>Mumbai</option>
+<option>Pune</option>
+<option>Vijayawada</option>
+<option>Mysore</option>
+</select>
+</div>
+
+<div class="field">
+<label>Journey Date</label>
+<input type="date" id="journeyDate">
+</div>
+
+</div>
+
+<button class="search-btn" onclick="searchBuses()">SEARCH BUSES</button>
+
+</div>
+
+<div class="famous-bus-wrapper">
+
+<h2>🚌 Famous Bus Routes</h2>
+
+<div class="bus-route-grid">
+
+<div class="bus-route-box">
+<h3>Hyderabad → Vijayawada</h3>
+<p>APSRTC | AC Sleeper</p>
+<p class="fare">Starting ₹799</p>
+<button onclick="openRoute('Hyderabad','Vijayawada')">Book Now</button>
+</div>
+
+<div class="bus-route-box">
+<h3>Bangalore → Mysore</h3>
+<p>KSRTC | Volvo AC</p>
+<p class="fare">Starting ₹450</p>
+<button onclick="openRoute('Bengaluru','Mysore')">Book Now</button>
+</div>
+
+<div class="bus-route-box">
+<h3>Chennai → Coimbatore</h3>
+<p>Private Travels | AC Seater</p>
+<p class="fare">Starting ₹650</p>
+<button onclick="openRoute('Chennai','Coimbatore')">Book Now</button>
+</div>
+
+<div class="bus-route-box">
+<h3>Mumbai → Pune</h3>
+<p>RSRTC | Deluxe</p>
+<p class="fare">Starting ₹550</p>
+<button onclick="openRoute('Mumbai','Pune')">Book Now</button>
+</div>
+
+<div class="bus-route-box">
+<h3>Hyderabad → Mumbai</h3>
+<p>RSRTC | Deluxe</p>
+<p class="fare">Starting ₹550</p>
+<button onclick="openRoute('Hyderabad','Mumbai')">Book Now</button>
+</div>
+
+<div class="bus-route-box">
+<h3>Hyderabad → Bangalore</h3>
+<p>RSRTC | Deluxe</p>
+<p class="fare">Starting ₹550</p>
+<button onclick="openRoute('Hyderabad','Bengaluru')">Book Now</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function searchBuses(){
+
+let from=document.getElementById("fromCity").value;
+let to=document.getElementById("toCity").value;
+let date=document.getElementById("journeyDate").value;
+
+window.location.href=
+"busticket.html?from="+encodeURIComponent(from)+
+"&to="+encodeURIComponent(to)+
+"&date="+date;
+
+}
+
+function openRoute(from,to){
+
+window.location.href=
+"busticket.html?from="+encodeURIComponent(from)+
+"&to="+encodeURIComponent(to);
+
+}
+
+</script>
+
+</body>
+</html>

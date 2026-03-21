@@ -1,0 +1,252 @@
+<html>
+<head>
+<title>Bus Tickets</title>
+
+<style>
+
+body{
+margin:0;
+background-image:linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment:fixed;
+background-size:cover;
+font-family:Arial;
+}
+
+.route-header{
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:bold;
+color:#262626;
+}
+
+.bus-container{
+width:80%;
+margin:auto;
+}
+
+.bus-card{
+background:linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+padding:20px;
+margin:15px 0;
+border-radius:10px;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.bus-info{
+font-size:14px;
+}
+
+.bus-name{
+font-size:18px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.bus-price{
+font-size:18px;
+color:green;
+font-weight:bold;
+}
+
+.book-btn{
+background:#FF4400;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+.book-btn:hover{
+opacity:0.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="route-header" id="routeTitle">
+Loading buses...
+</div>
+
+<div class="bus-container" id="busContainer"></div>
+
+<script>
+
+/* READ URL */
+
+const params=new URLSearchParams(window.location.search);
+
+let from=params.get("from");
+let to=params.get("to");
+let date=params.get("date");
+
+if(!from || from==="Select Source City") from="Hyderabad";
+if(!to || to==="Select Destination City") to="Vijayawada";
+if(!date) date="Today";
+
+/* HEADER */
+
+document.getElementById("routeTitle").innerHTML=
+"Buses : "+from+" → "+to+" | Date : "+date;
+
+
+/* BUS DATABASE */
+
+const buses=[
+
+/* HYDERABAD → VIJAYAWADA */
+
+{route:"Hyderabad_Vijayawada",name:"APSRTC Garuda Plus",type:"AC Sleeper",time:"05:30 AM",price:799},
+{route:"Hyderabad_Vijayawada",name:"APSRTC Super Luxury",type:"Non AC Sleeper",time:"06:30 AM",price:650},
+{route:"Hyderabad_Vijayawada",name:"APSRTC Double Decker",type:"AC Seater",time:"07:30 AM",price:720},
+{route:"Hyderabad_Vijayawada",name:"VRL Travels",type:"AC Sleeper",time:"09:30 AM",price:950},
+{route:"Hyderabad_Vijayawada",name:"Orange Travels",type:"AC Sleeper",time:"12:30 PM",price:980},
+{route:"Hyderabad_Vijayawada",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:1100},
+{route:"Hyderabad_Vijayawada",name:"Morning Star",type:"AC Sleeper",time:"04:30 PM",price:1050},
+{route:"Hyderabad_Vijayawada",name:"SVR Travels",type:"Non AC Sleeper",time:"06:30 PM",price:720},
+{route:"Hyderabad_Vijayawada",name:"Kaveri Travels",type:"AC Sleeper",time:"09:30 PM",price:900},
+{route:"Hyderabad_Vijayawada",name:"GreenLine Travels",type:"AC Sleeper",time:"11:30 PM",price:950},
+
+/* VIJAYAWADA → HYDERABAD */
+
+{route:"Vijayawada_Hyderabad",name:"APSRTC Garuda Plus",type:"AC Sleeper",time:"05:30 AM",price:799},
+{route:"Vijayawada_Hyderabad",name:"APSRTC Super Luxury",type:"Non AC Sleeper",time:"06:30 AM",price:650},
+{route:"Vijayawada_Hyderabad",name:"APSRTC Double Decker",type:"AC Seater",time:"07:30 AM",price:720},
+{route:"Vijayawada_Hyderabad",name:"VRL Travels",type:"AC Sleeper",time:"09:30 AM",price:950},
+{route:"Vijayawada_Hyderabad",name:"Orange Travels",type:"AC Sleeper",time:"12:30 PM",price:980},
+{route:"Vijayawada_Hyderabad",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:1100},
+{route:"Vijayawada_Hyderabad",name:"Morning Star",type:"AC Sleeper",time:"04:30 PM",price:1050},
+{route:"Vijayawada_Hyderabad",name:"SVR Travels",type:"Non AC Sleeper",time:"06:30 PM",price:720},
+{route:"Vijayawada_Hyderabad",name:"Kaveri Travels",type:"AC Sleeper",time:"09:30 PM",price:900},
+{route:"Vijayawada_Hyderabad",name:"GreenLine Travels",type:"AC Sleeper",time:"11:30 PM",price:950},
+
+/* BENGALURU → MYSORE */
+
+{route:"Bengaluru_Mysore",name:"KSRTC Airavat",type:"Volvo AC",time:"05:30 AM",price:450},
+{route:"Bengaluru_Mysore",name:"KSRTC Rajahamsa",type:"Non AC",time:"07:00 AM",price:350},
+{route:"Bengaluru_Mysore",name:"KSRTC Double Decker",type:"AC Seater",time:"08:30 AM",price:500},
+{route:"Bengaluru_Mysore",name:"VRL Travels",type:"AC Sleeper",time:"10:30 AM",price:650},
+{route:"Bengaluru_Mysore",name:"Orange Travels",type:"AC Sleeper",time:"12:30 PM",price:720},
+{route:"Bengaluru_Mysore",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:700},
+{route:"Bengaluru_Mysore",name:"Morning Star",type:"AC Sleeper",time:"04:30 PM",price:750},
+{route:"Bengaluru_Mysore",name:"SVR Travels",type:"Non AC Sleeper",time:"06:30 PM",price:620},
+{route:"Bengaluru_Mysore",name:"Kaveri Travels",type:"AC Sleeper",time:"08:30 PM",price:680},
+{route:"Bengaluru_Mysore",name:"GreenLine Travels",type:"AC Sleeper",time:"10:30 PM",price:720},
+
+/* MYSORE → BENGALURU */
+
+{route:"Mysore_Bengaluru",name:"KSRTC Airavat",type:"Volvo AC",time:"05:30 AM",price:450},
+{route:"Mysore_Bengaluru",name:"KSRTC Rajahamsa",type:"Non AC",time:"07:00 AM",price:350},
+{route:"Mysore_Bengaluru",name:"KSRTC Double Decker",type:"AC Seater",time:"08:30 AM",price:500},
+{route:"Mysore_Bengaluru",name:"VRL Travels",type:"AC Sleeper",time:"10:30 AM",price:650},
+{route:"Mysore_Bengaluru",name:"Orange Travels",type:"AC Sleeper",time:"12:30 PM",price:720},
+{route:"Mysore_Bengaluru",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:700},
+{route:"Mysore_Bengaluru",name:"Morning Star",type:"AC Sleeper",time:"04:30 PM",price:750},
+{route:"Mysore_Bengaluru",name:"SVR Travels",type:"Non AC Sleeper",time:"06:30 PM",price:620},
+{route:"Mysore_Bengaluru",name:"Kaveri Travels",type:"AC Sleeper",time:"08:30 PM",price:680},
+{route:"Mysore_Bengaluru",name:"GreenLine Travels",type:"AC Sleeper",time:"10:30 PM",price:720},
+
+/* CHENNAI → COIMBATORE */
+
+{route:"Chennai_Coimbatore",name:"TNSTC Sleeper",type:"Non AC Sleeper",time:"05:30 AM",price:700},
+{route:"Chennai_Coimbatore",name:"TNSTC AC Sleeper",type:"AC Sleeper",time:"07:00 AM",price:820},
+{route:"Chennai_Coimbatore",name:"TNSTC Deluxe",type:"AC Seater",time:"08:30 AM",price:760},
+{route:"Chennai_Coimbatore",name:"KPN Travels",type:"AC Sleeper",time:"10:30 AM",price:950},
+{route:"Chennai_Coimbatore",name:"Parveen Travels",type:"Volvo AC",time:"12:30 PM",price:1000},
+{route:"Chennai_Coimbatore",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:1050},
+{route:"Chennai_Coimbatore",name:"YBM Travels",type:"AC Sleeper",time:"04:30 PM",price:990},
+{route:"Chennai_Coimbatore",name:"SMS Travels",type:"Non AC Sleeper",time:"06:30 PM",price:850},
+{route:"Chennai_Coimbatore",name:"Kaveri Travels",type:"AC Sleeper",time:"08:30 PM",price:900},
+{route:"Chennai_Coimbatore",name:"GreenLine Travels",type:"AC Sleeper",time:"10:30 PM",price:950},
+
+/* COIMBATORE → CHENNAI */
+
+{route:"Coimbatore_Chennai",name:"TNSTC Sleeper",type:"Non AC Sleeper",time:"05:30 AM",price:700},
+{route:"Coimbatore_Chennai",name:"TNSTC AC Sleeper",type:"AC Sleeper",time:"07:00 AM",price:820},
+{route:"Coimbatore_Chennai",name:"TNSTC Deluxe",type:"AC Seater",time:"08:30 AM",price:760},
+{route:"Coimbatore_Chennai",name:"KPN Travels",type:"AC Sleeper",time:"10:30 AM",price:950},
+{route:"Coimbatore_Chennai",name:"Parveen Travels",type:"Volvo AC",time:"12:30 PM",price:1000},
+{route:"Coimbatore_Chennai",name:"SRS Volvo",type:"AC Sleeper",time:"02:30 PM",price:1050},
+{route:"Coimbatore_Chennai",name:"YBM Travels",type:"AC Sleeper",time:"04:30 PM",price:990},
+{route:"Coimbatore_Chennai",name:"SMS Travels",type:"Non AC Sleeper",time:"06:30 PM",price:850},
+{route:"Coimbatore_Chennai",name:"Kaveri Travels",type:"AC Sleeper",time:"08:30 PM",price:900},
+{route:"Coimbatore_Chennai",name:"GreenLine Travels",type:"AC Sleeper",time:"10:30 PM",price:950}
+
+];
+
+
+/* FILTER ROUTE */
+
+let routeKey=from+"_"+to;
+let available=buses.filter(bus=>bus.route===routeKey);
+
+
+/* DISPLAY BUSES */
+
+const container=document.getElementById("busContainer");
+
+available.forEach(bus=>{
+
+let card=document.createElement("div");
+
+card.className="bus-card";
+
+card.innerHTML=`
+<div class="bus-info">
+<div class="bus-name">${bus.name}</div>
+${bus.type}<br>
+Departure : ${bus.time}
+</div>
+
+<div>
+<div class="bus-price">₹${bus.price}</div>
+<button class="book-btn" onclick='bookBusTicket(${JSON.stringify(bus)})'>Book Ticket</button>
+</div>
+`;
+
+container.appendChild(card);
+
+});
+
+
+/* BOOK BUS TICKET */
+
+function bookBusTicket(bus){
+
+let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+let ticket = {
+type:"Bus Ticket",
+name:bus.name,
+route:from+" → "+to,
+busType:bus.type,
+departure:bus.time,
+date:date,
+price:bus.price,
+booked:new Date().toLocaleString()
+};
+
+tickets.push(ticket);
+
+localStorage.setItem("tickets", JSON.stringify(tickets));
+
+window.location.href="MT.html";
+
+}
+
+</script>
+
+</body>
+</html>

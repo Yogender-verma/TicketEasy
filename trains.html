@@ -1,0 +1,326 @@
+<html>
+<head>
+<title>TRAINS</title>
+<link rel="icon" href="logo.ico">
+
+<style>
+
+body {
+margin: 0;
+background-image: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+}
+
+h2{
+text-align: center;
+margin-top: 10px;
+color:#262626;
+}
+
+.train-card {
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+width: 75%;
+margin: 20px auto;
+padding: 25px;
+border-radius: 10px;
+box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.row {
+display: flex;
+gap: 20px;
+margin-bottom: 18px;
+}
+
+.field {
+flex: 1;
+}
+
+label {
+display: block;
+font-size: 12px;
+color: #333;
+margin-bottom: 6px;
+font-weight: bold;
+}
+
+input, select {
+width: 100%;
+padding: 12px;
+font-size: 14px;
+border-radius: 6px;
+border: 1px solid #ccc;
+}
+
+.checkbox-row {
+display: flex;
+gap: 20px;
+margin-bottom: 20px;
+font-size: 13px;
+}
+
+.checkbox-row label {
+font-weight: normal;
+}
+
+.search-btn {
+background: #00bfff;
+color: white;
+border: none;
+padding: 14px;
+font-size: 16px;
+width: 100%;
+border-radius: 8px;
+cursor: pointer;
+font-weight: bold;
+}
+
+.search-btn:hover {
+background: #00bfff;
+}
+
+.footer {
+text-align: center;
+margin-top: 30px;
+font-size: 13px;
+color: gray;
+}
+.famous-train-wrapper {
+width: 85%;
+margin: 40px auto;
+padding: 40px;
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+border-radius: 15px;
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+
+.famous-train-wrapper h2 {
+font-size: 28px;
+margin-bottom: 30px;
+color: #333;
+}
+
+.train-route-grid {
+display: flex;
+justify-content: center;
+gap: 25px;
+flex-wrap: wrap;
+}
+
+.train-route-box {
+width: 260px;
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+transition: all 0.3s ease;
+text-align: left;
+}
+
+.train-route-box:hover {
+transform: translateY(-8px);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.train-route-box h3 {
+margin-bottom: 10px;
+font-size: 18px;
+}
+
+.train-route-box p {
+font-size: 14px;
+margin: 6px 0;
+color: #555;
+}
+
+.train-route-box .fare {
+font-size: 16px;
+font-weight: bold;
+color: green;
+margin: 10px 0;
+}
+
+.train-route-box button {
+width: 100%;
+padding: 8px;
+border: none;
+border-radius: 6px;
+background: #FF4400;
+cursor: pointer;
+color: white;
+}
+
+.train-route-box button:hover {
+opacity: 0.9;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Train Tickets</h2>
+
+<div class="train-card">
+
+<div class="row">
+
+<div class="field">
+<label>From</label>
+<select id="fromStation">
+<option>Select Source Station</option>
+<option>Secunderabad (SC)</option>
+<option>Chennai Central (MAS)</option>
+<option>Bengaluru (SBC)</option>
+<option>New Delhi (NDLS)</option>
+</select>
+</div>
+
+<div class="field">
+<label>To</label>
+<select id="toStation">
+<option>Select Destination Station</option>
+<option>Vijayawada (BZA)</option>
+<option>Visakhapatnam (VSKP)</option>
+<option>Mumbai Central (BCT)</option>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+<label>Journey Date</label>
+<input type="date" id="journeyDate">
+</div>
+
+<div class="field">
+<label>Class</label>
+<select id="trainClass">
+<option>All Classes</option>
+<option>Sleeper (SL)</option>
+<option>3AC</option>
+<option>2AC</option>
+<option>1AC</option>
+<option>Second Sitting (2S)</option>
+</select>
+</div>
+
+<div class="field">
+<label>Quota</label>
+<select id="quota">
+<option>General</option>
+<option>Tatkal</option>
+<option>Senior Citizen</option>
+<option>Ladies</option>
+<option>Divyang</option>
+</select>
+</div>
+
+</div>
+
+<div class="checkbox-row">
+<label><input type="checkbox"> Flexible With Date</label>
+<label><input type="checkbox"> Train with Available Berth</label>
+<label><input type="checkbox"> Railway Pass Concession</label>
+</div>
+
+<button class="search-btn" onclick="searchTrains()">SEARCH TRAINS</button>
+
+</div>
+<div class="famous-train-wrapper">
+
+<h2>🚆 Famous Train Routes</h2>
+
+<div class="train-route-grid">
+
+<div class="train-route-box">
+<h3>Secunderabad → Vijayawada</h3>
+<p>Krishna Express | Sleeper + AC</p>
+<p class="fare">Starting ₹320</p>
+<button onclick="bookTrain('Secunderabad (SC)','Vijayawada (BZA)')">Book Now</button>
+</div>
+
+<div class="train-route-box">
+<h3>Chennai → Visakhapatnam</h3>
+<p>Coromandel Express | 3AC</p>
+<p class="fare">Starting ₹650</p>
+<button onclick="bookTrain('Chennai Central (MAS)','Visakhapatnam (VSKP)')">Book Now</button>
+</div>
+
+<div class="train-route-box">
+<h3>Bengaluru → Mumbai Central</h3>
+<p>Udyan Express | Sleeper + AC</p>
+<p class="fare">Starting ₹850</p>
+<button onclick="bookTrain('Bengaluru (SBC)','Mumbai Central (BCT)')">Book Now</button>
+</div>
+
+<div class="train-route-box">
+<h3>Visakhapatnam → Chennai</h3>
+<p>Rajdhani Express | Premium</p>
+<p class="fare">Starting ₹1500</p>
+<button onclick="bookTrain('Visakhapatnam (VSKP)','Chennai Central (MAS)')">Book Now</button>
+</div>
+
+<div class="train-route-box">
+<h3>Vijayawada → Secunderabad</h3>
+<p>Godavari Express | Sleeper</p>
+<p class="fare">Starting ₹350</p>
+<button onclick="bookTrain('Vijayawada (BZA)','Secunderabad (SC)')">Book Now</button>
+</div>
+
+<div class="train-route-box">
+<h3>Mumbai Central → Bengaluru</h3>
+<p>East Coast Express | AC</p>
+<p class="fare">Starting ₹720</p>
+<button onclick="bookTrain('Mumbai Central (BCT)','Bengaluru (SBC)')">Book Now</button>
+</div>
+</div>
+
+</div>
+<script>
+
+function searchTrains(){
+
+let from=document.getElementById("fromStation").value;
+let to=document.getElementById("toStation").value;
+let date=document.getElementById("journeyDate").value;
+let trainClass=document.getElementById("trainClass").value;
+let quota=document.getElementById("quota").value;
+
+window.location.href=
+"trainticket.html?from="+encodeURIComponent(from)+
+"&to="+encodeURIComponent(to)+
+"&date="+date+
+"&class="+encodeURIComponent(trainClass)+
+"&quota="+encodeURIComponent(quota);
+
+}
+function bookTrain(from,to){
+
+window.location.href =
+"trainticket.html?from="+encodeURIComponent(from)+
+"&to="+encodeURIComponent(to);
+
+}
+
+</script>
+
+</body>
+</html>

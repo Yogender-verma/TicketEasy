@@ -1,0 +1,329 @@
+<html>
+<head>
+<title>Hotel</title>
+<link rel="icon" href="logo.ico">
+
+<style>
+
+body {
+margin: 0;
+background-image: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+}
+
+h2{
+text-align: center;
+margin-top: 10px;
+color:#262626;
+}
+
+/* SEARCH CARD */
+
+.hotel-card {
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+background-attachment: fixed;
+background-size: cover;
+width: 80%;
+margin: 20px auto;
+padding: 25px;
+border-radius: 14px;
+border: 1px solid white;
+box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.row {
+display: flex;
+gap: 20px;
+margin-bottom: 20px;
+}
+
+.field {
+flex: 1;
+}
+
+label {
+display: block;
+font-size: 12px;
+font-weight: bold;
+color: #444;
+margin-bottom: 6px;
+}
+
+input, select {
+width: 100%;
+padding: 12px;
+font-size: 14px;
+border-radius: 8px;
+border: 1px solid #ccc;
+}
+
+.search-btn {
+background: #00bfff;
+color: white;
+border: none;
+padding: 14px;
+width: 100%;
+font-size: 16px;
+border-radius: 10px;
+cursor: pointer;
+font-weight: bold;
+}
+
+/* HOTEL OFFERS */
+
+.famous-hotel-wrapper {
+width: 85%;
+margin: 40px auto;
+padding: 40px;
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+border-radius: 15px;
+box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+text-align: center;
+}
+
+.hotel-route-grid {
+display: flex;
+justify-content: center;
+gap: 25px;
+flex-wrap: wrap;
+}
+
+.hotel-route-box {
+width: 260px;
+background: linear-gradient(
+to bottom,
+#f5fffa,
+#00F7FF);
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+transition: all 0.3s ease;
+text-align: left;
+}
+
+.hotel-route-box:hover {
+transform: translateY(-8px);
+box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hotel-route-box h3 {
+margin-bottom: 10px;
+font-size: 18px;
+}
+
+.hotel-route-box p {
+font-size: 14px;
+margin: 6px 0;
+color: #555;
+}
+
+.hotel-route-box .fare {
+font-size: 16px;
+font-weight: bold;
+color: green;
+margin: 10px 0;
+}
+
+.hotel-route-box button {
+width: 100%;
+padding: 8px;
+border: none;
+border-radius: 6px;
+background: #FF4400;
+cursor: pointer;
+color: white;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Hotel Booking</h2>
+
+<div class="hotel-card">
+
+<div class="row">
+
+<div class="field">
+<label>Destination</label>
+
+<select id="destination">
+
+<option>Select City / Country</option>
+
+<option>Hyderabad, India</option>
+<option>Delhi, India</option>
+<option>Mumbai, India</option>
+
+<option>Dubai, UAE</option>
+<option>Bangkok, Thailand</option>
+<option>Singapore</option>
+
+<option>Paris, France</option>
+<option>New York, USA</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="field">
+<label>Check-in</label>
+<input type="date" id="checkin">
+</div>
+
+<div class="field">
+<label>Check-out</label>
+<input type="date" id="checkout">
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="field">
+<label>Guests</label>
+
+<select id="guests">
+<option>1 Adult</option>
+<option>2 Adults</option>
+<option>3 Adults</option>
+<option>Family</option>
+</select>
+
+</div>
+
+<div class="field">
+<label>Rooms</label>
+
+<select id="rooms">
+<option>1 Room</option>
+<option>2 Rooms</option>
+<option>3 Rooms</option>
+</select>
+
+</div>
+
+</div>
+
+<button class="search-btn" onclick="searchHotels()">SEARCH HOTELS</button>
+
+</div>
+
+
+
+<!-- HOTEL OFFERS -->
+
+<div class="famous-hotel-wrapper">
+
+<h2>🏨 Best Hotel Offers</h2>
+
+<div class="hotel-route-grid">
+
+<div class="hotel-route-box">
+<h3>Hyderabad Luxury Stay</h3>
+<p>Taj Krishna | 5 Star</p>
+<p class="fare">Starting ₹8,500 / night</p>
+<button onclick="bookHotel('Hyderabad, India')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Delhi Business Hotels</h3>
+<p>Leela Palace | Premium</p>
+<p class="fare">Starting ₹9,200 / night</p>
+<button onclick="bookHotel('Delhi, India')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Mumbai Sea View Hotels</h3>
+<p>Taj Mahal Palace</p>
+<p class="fare">Starting ₹11,500 / night</p>
+<button onclick="bookHotel('Mumbai, India')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Dubai Luxury Resorts</h3>
+<p>Atlantis The Palm</p>
+<p class="fare">Starting ₹18,000 / night</p>
+<button onclick="bookHotel('Dubai, UAE')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Bangkok Budget Hotels</h3>
+<p>Grand Centre Point</p>
+<p class="fare">Starting ₹4,500 / night</p>
+<button onclick="bookHotel('Bangkok, Thailand')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Singapore Marina Hotels</h3>
+<p>Marina Bay Sands</p>
+<p class="fare">Starting ₹21,000 / night</p>
+<button onclick="bookHotel('Singapore')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>Paris Romantic Hotels</h3>
+<p>Hotel Lutetia</p>
+<p class="fare">Starting ₹24,000 / night</p>
+<button onclick="bookHotel('Paris, France')">Book Now</button>
+</div>
+
+<div class="hotel-route-box">
+<h3>New York Downtown Hotels</h3>
+<p>Hilton Midtown</p>
+<p class="fare">Starting ₹19,500 / night</p>
+<button onclick="bookHotel('New York, USA')">Book Now</button>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+function searchHotels(){
+
+let destination=document.getElementById("destination").value;
+let checkin=document.getElementById("checkin").value;
+let checkout=document.getElementById("checkout").value;
+let guests=document.getElementById("guests").value;
+let rooms=document.getElementById("rooms").value;
+
+window.location.href=
+"hotelticket.html?destination="+encodeURIComponent(destination)+
+"&checkin="+checkin+
+"&checkout="+checkout+
+"&guests="+encodeURIComponent(guests)+
+"&rooms="+encodeURIComponent(rooms);
+
+}
+
+function bookHotel(city){
+
+window.location.href=
+"hotelticket.html?destination="+encodeURIComponent(city);
+
+}
+
+</script>
+
+</body>
+</html>

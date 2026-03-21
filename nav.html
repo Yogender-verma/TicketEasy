@@ -1,0 +1,105 @@
+<html>
+<head>
+    <title>TicketEasy</title>
+    <link rel="icon" href="logo.ico">
+</head>
+
+<style>
+    body {
+        margin: 0;
+        background-image: linear-gradient(
+        to bottom,
+        #f5fffa,
+        #00F7FF);
+        background-attachment: fixed;
+        background-size: cover;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100vh; 
+    }
+
+    .head {
+        background-color: skyblue;
+        color: white;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: 2px solid black;
+    }
+
+    .logo h1 {
+        margin: 0;
+    }
+
+    .modes {
+        display: flex;
+        gap: 20px;
+    }
+
+    .modes a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        padding: 8px 15px;
+    }
+
+    .modes a:hover {
+        color: green;
+        transition: all 0.5s ease;
+    }
+
+    .modes a:active {
+        color: black;
+    }
+
+    .modes a:visited {
+        color: antiquewhite;
+    }
+
+    .Profile button {
+        padding: 8px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: none;
+    }
+
+    .Profile button:hover {
+        background-color: whitesmoke;
+    }
+
+    iframe {
+        flex: 1;
+        width: 100%;
+        border: none;
+    }
+</style>
+
+<body>
+
+    <div class="head">
+        <div class="logo">
+            <h1>TicketEasy</h1>
+        </div>
+
+        <div class="modes">
+            <a href="home.html" target="page">HOME</a>
+            <a href="flight.html" target="page">FLIGHTS</a>
+            <a href="bus.html" target="page">BUS</a>
+            <a href="trains.html" target="page">TRAINS</a>
+            <a href="hotel.html" target="page">HOTELS</a>
+            <a href="trip.html" target="page">TRIPS</a>
+        </div>
+
+        <div class="Profile">
+            <a href="Profile.html" target="page">
+                <button>Profile</button>
+            </a>
+        </div>
+    </div>
+    <iframe name="page" src="home.html"></iframe>
+
+</body>
+</html>

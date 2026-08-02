@@ -3,27 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TicketEasy</title>
+  <title>TicketEasy | Smart Travel Booking Platform</title>
   <link rel="icon" href="logo.ico">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body class="shell-body">
-  <div class="head">
-    <div class="logo"><h1>TicketEasy</h1></div>
-    <div class="modes">
-      <a href="home.html" target="page">HOME</a>
-      <a href="flight.html" target="page">FLIGHTS</a>
-      <a href="bus.html" target="page">BUS</a>
-      <a href="trains.html" target="page">TRAINS</a>
-      <a href="hotel.html" target="page">HOTELS</a>
-      <a href="MT.html" target="page">MY TICKETS</a>
-      <a href="trips.html" target="page">MY TRIPS</a>
+  
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="head">
+    <a href="home.html?v=3.0" target="page" class="logo-container" onclick="setActiveTab(this)">
+      <div class="logo-icon">✈️</div>
+      <div class="logo"><h1>TicketEasy</h1></div>
+    </a>
+
+    <nav class="modes">
+      <a href="home.html?v=3.0" target="page" class="active" onclick="setActiveTab(this)">🏠 HOME</a>
+      <a href="flight.html?v=3.0" target="page" onclick="setActiveTab(this)">✈️ FLIGHTS</a>
+      <a href="bus.html?v=3.0" target="page" onclick="setActiveTab(this)">🚌 BUS</a>
+      <a href="trains.html?v=3.0" target="page" onclick="setActiveTab(this)">🚆 TRAINS</a>
+      <a href="hotel.html?v=3.0" target="page" onclick="setActiveTab(this)">🏨 HOTELS</a>
+      <a href="trips.html?v=3.0" target="page" onclick="setActiveTab(this)">🗺️ MY TRIPS</a>
+      <a href="mt.html?v=3.0" target="page" onclick="setActiveTab(this)">🎟️ MY TICKETS</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="ai-copilot-trigger-btn" onclick="toggleAIChat()">
+        🤖 AI Copilot
+      </button>
+      <a href="profile.html?v=3.0" target="page">
+        <button class="Profile-btn">👤 Profile</button>
+      </a>
     </div>
-    <div class="Profile">
-      <a href="Profile.html" target="page"><button>Profile</button></a>
-    </div>
-  </div>
-  <iframe name="page" src="home.html"></iframe>
-  <script src="scripts.js"></script>
+  </header>
+
+  <!-- MAIN PAGE IFRAME CONTAINER -->
+  <iframe name="page" id="mainIframe" src="home.html?v=3.0"></iframe>
+
+  <!-- SCRIPTS WITH CACHE BUSTING -->
+  <script src="booking-modal.js?v=3.0"></script>
+  <script src="ai-assistant.js?v=3.0"></script>
+  <script>
+    function setActiveTab(el) {
+      document.querySelectorAll('.modes a').forEach(a => a.classList.remove('active'));
+      if (el && el.tagName === 'A' && el.parentElement.classList.contains('modes')) {
+        el.classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>

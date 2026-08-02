@@ -1,380 +1,207 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>TicketEasy | Home</title>
-    <link rel="icon" href="logo.ico">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .slideshow {
-            width: 100vw;
-            height: 50vh;
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .slides {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .slides img,
-        .slides video {
-            width: 100vw;
-            height: 50vh;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .slides a,
-        .slides video {
-            width: 100vw;
-            flex-shrink: 0;
-        }
-
-        
-        .arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 40px;
-            color: white;
-            background: rgba(0,0,0,0.4);
-            padding: 10px 18px;
-            cursor: pointer;
-            user-select: none;
-            border-radius: 50%;
-        }
-        .arrow {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(5px);
-        }
-        .arrow:hover {
-            background: rgba(0,0,0,0.7);
-        }
-
-        .prev {
-            left: 20px;
-        }
-
-        .next {
-            right: 20px;
-        }
-        .dots {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .dot {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin: 0 6px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .dot.active {
-            background: white;
-            transform: scale(1.2);
-        }
-        
-
-    .offers-section {
-        padding: 40px 20px;
-        text-align: center;
-    }
-
-    .offers-section h2 {
-        font-size: 28px;
-        margin-bottom: 30px;
-        color: #333;
-    }
-
-    
-    .offers-container {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        flex-wrap: wrap;
-    }
-
-    
-    .offer-card {
-        background: linear-gradient(
-            to bottom,
-            #f5fffa,
-            #00F7FF);
-        width: 220px;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-
-    
-    .offer-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    
-    .offer-card h3 {
-        margin-bottom: 10px;
-        font-size: 20px;
-    }
-
-   
-    .offer-card p {
-        font-size: 14px;
-        margin-bottom: 15px;
-        color: #555;
-    }
-
-    .offer-card button {
-        padding: 8px 15px;
-        border: none;
-        border-radius: 6px;
-        background: #FF4400;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .offer-card button:hover {
-        background: #00F7FF;
-        color: white;
-    }
-    .routes-main-container {
-        margin: 40px auto;
-        padding: 40px;
-        width: 85%;
-        background:linear-gradient(
-            to bottom,
-            #f5fffa,
-            #00F7FF);
-        border-radius: 15px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        text-align: center;
-    }
-
-    .routes-main-container h2 {
-        margin-bottom: 30px;
-    }
-
-   
-    .routes-packs {
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
-        flex-wrap: wrap;
-    }
-
-    
-    .route-pack {
-        flex: 1;
-        min-width: 200px;
-        background: linear-gradient(
-            to bottom,
-            #f5fffa,
-            #00F7FF);
-        padding: 20px;
-        bottom:1px solid #f5fffa;
-        border-radius: 10px;
-        transition: 0.3s;
-    }
-
-    .route-pack:hover {
-        background: linear-gradient(
-            to bottom,
-            #f5fffa,
-            #00F7FF);
-        transform: translateY(-5px);
-    }
-
-    
-    .route-pack h3 {
-        margin-bottom: 15px;
-    }
-
-    
-    .route-pack ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .route-pack li {
-        margin: 8px 0;
-        font-size: 14px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .route-pack button{
-        padding: 8px 15px;
-        border: none;
-        border-radius: 6px;
-        background: #FF4400;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .route-pack button:hover {
-        background: #00F7FF;
-        color: white;
-    }
-    
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicketEasy | Home</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
-<body>
+<body style="padding-bottom: 60px;">
 
-<div class="slideshow">
-    <div class="slides" id="slides">
-        <a href="flight.html"><img src="flight.jpeg" alt="Flights" ></a>
-        <a href="bus.html"><img src="bus.jpeg" alt="Bus" ></a>
-        <a href="trains.html"><img src="train.jpeg" alt="Trains" ></a>
-        <a href="hotel.html"><img src="hotel.jpeg" alt="Hotels"></a>
-    </div>
+  <!-- HERO SLIDESHOW -->
+  <div class="slideshow-wrapper">
+    <div class="slideshow">
+      <div class="slides" id="slides">
+        <a href="flight.html">
+          <img src="flight.jpeg" alt="Flights">
+          <div class="slide-caption">
+            <h2>Fly Premium with TicketEasy AI</h2>
+            <p>Save up to 25% on Domestic & International Flights</p>
+          </div>
+        </a>
+        <a href="bus.html">
+          <img src="bus.jpeg" alt="Bus">
+          <div class="slide-caption">
+            <h2>Luxury AC Sleeper Buses</h2>
+            <p>Book Sleeper & Volvo bus seats with live tracking</p>
+          </div>
+        </a>
+        <a href="trains.html">
+          <img src="train.jpeg" alt="Trains">
+          <div class="slide-caption">
+            <h2>Express & Rajdhani Train Tickets</h2>
+            <p>Instant Tatkal & General quota booking with 0 fees</p>
+          </div>
+        </a>
+        <a href="hotel.html">
+          <img src="hotel.jpeg" alt="Hotels">
+          <div class="slide-caption">
+            <h2>Luxury Hotel Stays</h2>
+            <p>Get up to 40% OFF on 5-Star Hotels & Resorts</p>
+          </div>
+        </a>
+      </div>
 
-    <div class="arrow prev" onclick="prevSlide()">&#10094;</div>
-    <div class="arrow next" onclick="nextSlide()">&#10095;</div>
+      <div class="arrow prev" onclick="prevSlide()">❮</div>
+      <div class="arrow next" onclick="nextSlide()">❯</div>
 
-    <div class="dots">
+      <div class="dots">
         <span class="dot active" onclick="goToSlide(0)"></span>
         <span class="dot" onclick="goToSlide(1)"></span>
         <span class="dot" onclick="goToSlide(2)"></span>
         <span class="dot" onclick="goToSlide(3)"></span>
+      </div>
     </div>
-</div>
-<div class="offers-section">
-    <h2 style="color: #262626;">Latest Offers</h2>
+  </div>
 
+  <!-- QUICK SEARCH CONTAINER -->
+  <div class="booking-container">
+    <div class="glass-card">
+      <div class="search-title">🔍 Quick Search & Instant Booking</div>
+      <div class="row">
+        <div class="field">
+          <label>From</label>
+          <select id="quickFrom">
+            <option>Hyderabad</option>
+            <option>Delhi</option>
+            <option>Mumbai</option>
+            <option>Bengaluru</option>
+            <option>Chennai</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>To</label>
+          <select id="quickTo">
+            <option>Vijayawada</option>
+            <option>Dubai</option>
+            <option>London</option>
+            <option>Goa</option>
+            <option>Mysore</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Travel Mode</label>
+          <select id="quickMode">
+            <option value="flight">✈️ Flight</option>
+            <option value="bus">🚌 Bus</option>
+            <option value="train">🚆 Train</option>
+            <option value="hotel">🏨 Hotel</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Departure Date</label>
+          <input type="date" id="quickDate">
+        </div>
+      </div>
+      <button class="search-btn" onclick="executeQuickSearch()">🚀 SEARCH & FIND DEALS</button>
+    </div>
+  </div>
+
+  <!-- OFFERS SECTION -->
+  <div class="offers-section">
+    <h2>🔥 Latest Exclusive Deals</h2>
     <div class="offers-container">
+      
+      <div class="offer-card">
+        <h3>✈️ Domestic Flights</h3>
+        <p>Flat 25% OFF using code <b>EASYAI20</b>. Free meal & extra baggage included.</p>
+        <button onclick="openBookingModal({title:'Air India Special Deal', type:'flight', route:'Hyderabad → Dubai', price:14800})">Book Flight @ ₹14,800</button>
+      </div>
 
-        <div class="offer-card">
-            <h3>✈️ Flights</h3>
-            <p>Get up to 25% OFF on domestic flights.</p>
-            <a href="flight.html"><button>View Flights</button></a>
-        </div>
+      <div class="offer-card">
+        <h3>🚌 Volvo Sleeper Buses</h3>
+        <p>Flat ₹200 Cashback on intercity AC Sleeper buses.</p>
+        <button onclick="openBookingModal({title:'APSRTC Garuda Plus', type:'bus', route:'Hyderabad → Vijayawada', price:799})">Book Bus @ ₹799</button>
+      </div>
 
-        <div class="offer-card">
-            <h3>🚌 Bus</h3>
-            <p>Flat ₹150 OFF on bus ticket bookings.</p>
-            <a href="bus.html"><button>View Buses</button></a>
-        </div>
+      <div class="offer-card">
+        <h3>🚆 Express Trains</h3>
+        <p>Instant Tatkal quota booking with zero payment gateway fees.</p>
+        <button onclick="openBookingModal({title:'Krishna Express (17405)', type:'train', route:'Secunderabad → Vijayawada', price:450})">Book Train @ ₹450</button>
+      </div>
 
-        <div class="offer-card">
-            <h3>🚆 Trains</h3>
-            <p>Instant ₹100 cashback on train bookings.</p>
-            <a href="trains.html"><button>View Trains</button></a>
-        </div>
-
-        <div class="offer-card">
-            <h3>🏨 Hotels</h3>
-            <p>Save up to 40% on hotel stays.</p>
-            <a href="hotel.html"><button>View Hotels</button></a>
-        </div>
-
-    </div>
-</div>
-<div class="routes-main-container">
-
-    <h2>🌍 Popular Routes</h2>
-
-    <div class="routes-packs">
-
-        <div class="route-pack">
-            <h3>✈️ Flights</h3>
-            <ul>
-                <li>Delhi → Mumbai</li>
-                <li>Hyderabad → Bangalore</li>
-                <li>Chennai → Kolkata</li>
-            </ul>
-            <a href="flightticket.html"><button>View Tickets</button></a>
-        </div>
-
-        <div class="route-pack">
-            <h3>🚌 Bus</h3>
-            <ul>
-                <li>Ahmedabad → Vadodara</li>
-                <li>Hyderabad → Vijayawada</li>
-                <li>Bangalore → Mysore</li>
-            </ul>
-            <a href="busticket.html"><button>View Tickets</button></a>
-        </div>
-
-        <div class="route-pack">
-            <h3>🚆 Trains</h3>
-            <ul>
-                <li>Mumbai → Pune</li>
-                <li>Delhi → Jaipur</li>
-                <li>Chennai → Coimbatore</li>
-            </ul>
-            <a href="trainticket.html"><button>View Tickets</button></a>
-        </div>
-
-        <div class="route-pack">
-            <h3>🏨 Hotels</h3>
-            <ul>
-                <li>Hotels in Goa</li>
-                <li>Hotels in Manali</li>
-                <li>Hotels in Ooty</li>
-            </ul>
-            <a href="hotelticket.html"><button>View Tickets</button></a>
-        </div>
+      <div class="offer-card">
+        <h3>🏨 Beach Resorts & Hotels</h3>
+        <p>Up to 40% OFF on Luxury Resorts in Goa & Manali.</p>
+        <button onclick="openBookingModal({title:'Taj Exotica Goa Resort', type:'hotel', route:'Goa Beachfront', price:4500})">View Hotels</button>
+      </div>
 
     </div>
+  </div>
 
-</div>
+  <!-- POPULAR ROUTES SECTION -->
+  <div class="booking-container">
+    <div class="glass-card">
+      <h2 style="font-size:24px; margin-bottom:20px; font-weight:800;">🌍 Popular Routes & Direct Booking</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+        
+        <div class="offer-card">
+          <h4>✈️ Delhi → London</h4>
+          <p style="font-size:12px; margin:6px 0;">British Airways (BA256)</p>
+          <div class="price-tag" style="font-size:18px;">₹45,000</div>
+          <button onclick="openBookingModal({title:'British Airways Delhi-London', type:'flight', route:'Delhi → London', price:45000})">Book Flight</button>
+        </div>
 
-<script>
+        <div class="offer-card">
+          <h4>🚌 Bengaluru → Mysore</h4>
+          <p style="font-size:12px; margin:6px 0;">KSRTC Airavat AC</p>
+          <div class="price-tag" style="font-size:18px;">₹450</div>
+          <button onclick="openBookingModal({title:'KSRTC Airavat Mysore', type:'bus', route:'Bengaluru → Mysore', price:450})">Book Bus</button>
+        </div>
+
+        <div class="offer-card">
+          <h4>🚆 Mumbai → Pune</h4>
+          <p style="font-size:12px; margin:6px 0;">Deccan Queen Express</p>
+          <div class="price-tag" style="font-size:18px;">₹350</div>
+          <button onclick="openBookingModal({title:'Deccan Queen Mumbai-Pune', type:'train', route:'Mumbai → Pune', price:350})">Book Train</button>
+        </div>
+
+        <div class="offer-card">
+          <h4>🏨 Goa Beachfront</h4>
+          <p style="font-size:12px; margin:6px 0;">Grand Hyatt Goa</p>
+          <div class="price-tag" style="font-size:18px;">₹6,200</div>
+          <button onclick="openBookingModal({title:'Grand Hyatt Goa', type:'hotel', route:'Goa Beachfront', price:6200})">Book Hotel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="booking-modal.js?v=3.0"></script>
+  <script>
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById("quickDate").value = tomorrow.toISOString().split('T')[0];
+
     const slides = document.getElementById("slides");
     const dots = document.querySelectorAll(".dot");
-    const totalSlides = slides.children.length;
-
+    const totalSlides = 4;
     let index = 0;
 
-    
     function showSlide() {
-        slides.style.transform = "translateX(-" + index * 100 + "%)";
-        updateDots();
+      slides.style.transform = "translateX(-" + index * 100 + "%)";
+      dots.forEach(d => d.classList.remove("active"));
+      if(dots[index]) dots[index].classList.add("active");
     }
 
-    
-    function nextSlide() {
-        index = (index + 1) % totalSlides;
-        showSlide();
+    function nextSlide() { index = (index + 1) % totalSlides; showSlide(); }
+    function prevSlide() { index = (index - 1 + totalSlides) % totalSlides; showSlide(); }
+    function goToSlide(i) { index = i; showSlide(); }
+
+    setInterval(nextSlide, 3500);
+
+    function executeQuickSearch() {
+      const mode = document.getElementById("quickMode").value;
+      const from = document.getElementById("quickFrom").value;
+      const to = document.getElementById("quickTo").value;
+      const date = document.getElementById("quickDate").value;
+
+      if (mode === "flight") window.location.href = `flightticket.html?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${date}`;
+      if (mode === "bus") window.location.href = `busticket.html?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${date}`;
+      if (mode === "train") window.location.href = `traintickets.html?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${date}`;
+      if (mode === "hotel") window.location.href = `hotel.html?destination=${encodeURIComponent(to)}`;
     }
-
-    
-    function prevSlide() {
-        index = (index - 1 + totalSlides) % totalSlides;
-        showSlide();
-    }
-
-    
-    function goToSlide(i) {
-        index = i;
-        showSlide();
-    }
-
-    
-    function updateDots() {
-        dots.forEach(dot => dot.classList.remove("active"));
-        dots[index].classList.add("active");
-    }
-
-    
-    setInterval(nextSlide, 3000);
-
-    updateDots();
-    
-</script>
-
+  </script>
 </body>
 </html>

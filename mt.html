@@ -1,172 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>MT | My Tickets</title>
-
-<style>
-
-body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(to bottom,#f5fffa,#00F7FF);
-}
-
-/* HEADER */
-
-.header{
-    background:skyblue;
-    color:white;
-    text-align:center;
-    padding:20px;
-    font-size:28px;
-}
-
-/* TICKET SECTION */
-
-.container{
-    width:85%;
-    margin:auto;
-    margin-top:40px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:25px;
-}
-
-/* TICKET CARD */
-
-.ticket{
-    width:260px;
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.2);
-    transition:0.3s;
-}
-
-.ticket:hover{
-    transform:translateY(-6px);
-}
-
-.ticket h3{
-    color:#FF4400;
-    margin-bottom:10px;
-}
-
-.ticket p{
-    font-size:14px;
-    margin:5px 0;
-}
-
-/* BUTTON */
-
-.ticket button{
-    margin-top:10px;
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    background:#FF4400;
-    color:white;
-    cursor:pointer;
-}
-
-.ticket button:hover{
-    background:#00F7FF;
-}
-
-/* EMPTY MESSAGE */
-
-.empty{
-    text-align:center;
-    margin-top:80px;
-    font-size:22px;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Booked E-Tickets | TicketEasy Wallet</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
+<body style="padding-bottom: 60px;">
 
-<body>
+  <div class="route-header">
+    🎟️ My Digital E-Ticket Wallet
+  </div>
 
-<div class="header"> My Booked Tickets
-</div>
+  <div class="booking-container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h3 style="font-size:20px; font-weight:800;">Active Bookings & Invoices</h3>
+      <button class="action-btn" style="width:auto; padding:10px 20px;" onclick="addSampleDemoTicket()">+ Add Sample Ticket</button>
+    </div>
 
-<div class="container" id="ticketContainer">
+    <div class="tickets-grid" id="ticketContainer"></div>
 
-</div>
+    <div class="glass-card" id="emptyMessage" style="text-align:center; padding:50px; display:none;">
+      <div style="font-size:48px; margin-bottom:12px;">🎟️</div>
+      <h3>No Active Tickets Found</h3>
+      <p style="color:var(--text-muted); margin-bottom:20px;">You haven't booked any tickets yet. Explore flights, buses, trains, or hotels to get started!</p>
+      <button class="search-btn" style="width:auto; display:inline-block; padding:12px 24px;" onclick="window.location.href='home.html'">Explore Destinations</button>
+    </div>
+  </div>
 
-<div class="empty" id="emptyMessage">
-No Tickets Booked Yet
-</div>
+  <script src="booking-modal.js?v=3.0"></script>
+  <script>
+    function showTickets() {
+      let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      const container = document.getElementById("ticketContainer");
+      const empty = document.getElementById("emptyMessage");
 
+      container.innerHTML = "";
 
-<script>
+      if (tickets.length === 0) {
+        empty.style.display = "block";
+        return;
+      }
 
-/* Get tickets from localStorage */
+      empty.style.display = "none";
 
-let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      tickets.forEach((t, index) => {
+        const pnr = t.pnr || ("TE-" + (890000 + index * 1234));
+        const card = document.createElement("div");
+        card.className = "ticket-card";
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:12px; color:var(--primary); font-weight:800;">PNR: ${pnr}</span>
+            <span style="background:rgba(16,185,129,0.2); color:var(--emerald); border:1px solid rgba(16,185,129,0.4); font-size:11px; padding:3px 8px; border-radius:12px; font-weight:700;">CONFIRMED</span>
+          </div>
 
+          <h3>${t.name}</h3>
 
-/* Display tickets */
+          <div class="ticket-info-row">
+            <span>Route</span>
+            <b style="color:white;">${t.route || "Domestic"}</b>
+          </div>
+          <div class="ticket-info-row">
+            <span>Seat / Room</span>
+            <b style="color:white;">${t.seat || "1A"}</b>
+          </div>
+          <div class="ticket-info-row">
+            <span>Travel Date</span>
+            <b style="color:white;">${t.date || "Tomorrow"}</b>
+          </div>
+          <div class="ticket-info-row">
+            <span>Paid Amount</span>
+            <b style="color:var(--emerald);">${t.price || "₹1,200"}</b>
+          </div>
 
-function showTickets(){
+          <div class="qr-placeholder" title="Scan E-Ticket at Boarding Gate">
+            <svg width="74" height="74" viewBox="0 0 100 100">
+              <rect width="100" height="100" fill="white"/>
+              <rect x="10" y="10" width="30" height="30" fill="black"/><rect x="15" y="15" width="20" height="20" fill="white"/><rect x="20" y="20" width="10" height="10" fill="black"/>
+              <rect x="60" y="10" width="30" height="30" fill="black"/><rect x="65" y="15" width="20" height="20" fill="white"/><rect x="70" y="20" width="10" height="10" fill="black"/>
+              <rect x="10" y="60" width="30" height="30" fill="black"/><rect x="15" y="65" width="20" height="20" fill="white"/><rect x="20" y="70" width="10" height="10" fill="black"/>
+              <rect x="45" y="45" width="12" height="12" fill="black"/>
+            </svg>
+          </div>
 
-let container = document.getElementById("ticketContainer");
-let empty = document.getElementById("emptyMessage");
+          <div style="display:flex; gap:8px; margin-top:14px;">
+            <button class="search-btn" style="padding:8px 12px; font-size:12px;" onclick="printETicket('${pnr}')">🖨️ Print PDF</button>
+            <button class="action-btn" style="padding:8px 12px; font-size:12px; background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#f87171;" onclick="cancelTicket(${index})">Cancel</button>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
 
-container.innerHTML="";
+    function cancelTicket(index) {
+      if (confirm("Are you sure you want to cancel this ticket? Full refund will be credited to your payment source.")) {
+        let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+        tickets.splice(index, 1);
+        localStorage.setItem("tickets", JSON.stringify(tickets));
+        showTickets();
+      }
+    }
 
-if(tickets.length === 0){
-empty.style.display="block";
-return;
-}
+    function printETicket(pnr) {
+      window.print();
+    }
 
-empty.style.display="none";
+    function addSampleDemoTicket() {
+      let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      tickets.unshift({
+        pnr: "TE-" + Math.floor(100000 + Math.random() * 900000),
+        name: "Emirates (EK525)",
+        type: "flight",
+        route: "Hyderabad → Dubai",
+        seat: "12A (Window)",
+        travellers: "1 Adult",
+        price: "₹18,500",
+        date: "Tomorrow",
+        bookedAt: new Date().toLocaleString()
+      });
+      localStorage.setItem("tickets", JSON.stringify(tickets));
+      showTickets();
+    }
 
-tickets.forEach((t,index)=>{
-
-container.innerHTML += `
-
-<div class="ticket">
-
-<h3>${t.name}</h3>
-
-<p><b>Route:</b> ${t.route}</p>
-
-<p><b>Price:</b> ₹${t.price}</p>
-
-<p><b>Date:</b> ${t.date}</p>
-
-<button onclick="cancelTicket(${index})">
-Cancel Ticket
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-
-
-/* Cancel ticket */
-
-function cancelTicket(index){
-
-tickets.splice(index,1);
-
-localStorage.setItem("tickets",JSON.stringify(tickets));
-
-showTickets();
-
-}
-
-
-/* Load tickets when page opens */
-
-showTickets();
-
-</script>
-
+    showTickets();
+  </script>
 </body>
 </html>

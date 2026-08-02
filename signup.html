@@ -3,38 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TicketEasy | Sign Up</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <title>Sign Up | TicketEasy</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
-<body>
-  <div class="auth-wrap">
-    <div class="auth-box">
-      <h3>Sign Up</h3>
-      <label>Phone No:</label>
-      <input type="number" id="number" placeholder="Phone number"><br>
-      <label>Email ID:</label>
-      <input type="email" id="Email" placeholder="Email address"><br>
-      <label>Password:</label>
-      <input type="password" id="password" placeholder="Create password" onkeyup="checkStrength()">
-      <div id="strength"></div><br>
-      <button onclick="signup()">SIGN UP</button>
-      <p>Already have an account? <a href="login.html">Login</a></p>
+<body style="display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
+
+  <div class="glass-card" style="width:440px; text-align:center; padding:40px;">
+    <div style="font-size:36px; margin-bottom:10px;">✨</div>
+    <h2 style="font-size:26px; font-weight:800; margin-bottom:6px; color:white;">Create Account</h2>
+    <p style="color:var(--text-muted); font-size:13px; margin-bottom:24px;">Join TicketEasy for AI itinerary planning & zero fee bookings</p>
+
+    <div style="text-align:left; margin-bottom:12px;">
+      <label>Phone Number</label>
+      <input type="text" id="phone" placeholder="+91 98765 43210">
     </div>
+
+    <div style="text-align:left; margin-bottom:12px;">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="name@domain.com">
+    </div>
+
+    <div style="text-align:left; margin-bottom:16px;">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Create strong password" onkeyup="checkStrength()">
+      <div id="strength" style="font-size:12px; margin-top:4px; font-weight:700;"></div>
+    </div>
+
+    <button class="search-btn" onclick="handleSignup()">✨ CREATE ACCOUNT</button>
+
+    <p style="margin-top:20px; font-size:13px; color:var(--text-muted);">
+      Already have an account? <a href="login.html" style="color:var(--primary); font-weight:700;">Login</a>
+    </p>
   </div>
+
   <script>
-    var firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "yourproject.firebaseapp.com",
-      databaseURL: "https://yourproject-default-rtdb.firebaseio.com",
-      projectId: "yourproject",
-      storageBucket: "yourproject.appspot.com",
-      messagingSenderId: "123456",
-      appId: "123456"
-    };
-    firebase.initializeApp(firebaseConfig);
+    function checkStrength() {
+      const pw = document.getElementById("password").value;
+      const str = document.getElementById("strength");
+      if (pw.length >= 8 && /[A-Z]/.test(pw) && /[0-9]/.test(pw)) {
+        str.textContent = "✓ Strong Password";
+        str.style.color = "var(--emerald)";
+      } else {
+        str.textContent = "✕ Password must be 8+ chars with 1 uppercase & 1 number";
+        str.style.color = "var(--rose)";
+      }
+    }
+
+    function handleSignup() {
+      const phone = document.getElementById("phone").value;
+      const email = document.getElementById("email").value;
+      if (!phone || !email) { alert("Please enter phone and email."); return; }
+      localStorage.setItem("ticketEasyUser", JSON.stringify({ email: email, phone: phone, name: "New User" }));
+      window.location.href = "Profile.html";
+    }
   </script>
-  <script src="scripts.js"></script>
 </body>
 </html>

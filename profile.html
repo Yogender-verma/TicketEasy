@@ -1,183 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Profile</title>
-
-<style>
-
-body {
-margin: 0;
-background-image: linear-gradient(
-to bottom,
-#f5fffa,
-#00F7FF);
-background-attachment: fixed;
-background-size: cover;
-overflow: hidden;
-display: flex;
-flex-direction: column;
-height: 100vh; 
-}
-
-.head {
-background-color: skyblue;
-color: white;
-text-align: center;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 20px;
-border-bottom: 2px solid black;
-}
-
-.logo h1 {
-margin: 0;
-}
-
-/* Profile Container */
-
-.container{
-width:450px;
-background:white;
-margin:auto;
-padding:20px;
-border-radius:10px;
-box-shadow:0px 0px 10px rgba(0,0,0,0.3);
-text-align:center;
-}
-
-.section{
-margin-bottom:20px;
-}
-
-.ticket{
-background:#e6faff;
-padding:8px;
-margin-top:8px;
-border-radius:5px;
-}
-
-.logout{
-margin-top:20px;
-text-align:center;
-}
-
-.logout button{
-padding:10px 20px;
-border:none;
-background:red;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-</style>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | TicketEasy Glassmorphism</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
+  <style>
+    body {
+      background: #030712 !important;
+      background-image: radial-gradient(ellipse at 20% 10%, #1e1b4b 0%, #0f172a 50%, #030712 100%) !important;
+      color: #f8fafc;
+      min-height: 100vh;
+      position: relative;
+    }
+    .profile-glass-card {
+      background: rgba(15, 23, 42, 0.65) !important;
+      backdrop-filter: blur(25px) !important;
+      -webkit-backdrop-filter: blur(25px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+      border-radius: 24px !important;
+      padding: 40px !important;
+      max-width: 580px;
+      margin: 30px auto;
+      text-align: center;
+    }
+    .profile-avatar-glow {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #06b6d4, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .stat-glass-item {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: left;
+    }
+  </style>
 </head>
+<body style="padding-bottom: 60px;">
 
-<body>
+  <!-- AMBIENT GLOWING ORBS -->
+  <div style="position:fixed; top:-100px; right:-100px; width:450px; height:450px; border-radius:50%; background:radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%); pointer-events:none; z-index:0;"></div>
+  <div style="position:fixed; bottom:-100px; left:-100px; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(6,182,212,0.2), transparent 70%); pointer-events:none; z-index:0;"></div>
 
-<div class="head">
-<div class="logo">
-<h1>TicketEasy</h1>
-</div>
-</div>
+  <div class="route-header" style="position:relative; z-index:2;">
+    👤 User Profile & Travel Dashboard
+  </div>
 
+  <div class="booking-container" style="position:relative; z-index:2;">
+    <div class="profile-glass-card">
+      <div class="profile-avatar-glow">
+        👤
+      </div>
 
-<div class="container">
+      <h2 style="font-size:26px; font-weight:900; color:white; margin-bottom:4px;" id="userName">Yogendar Verma</h2>
+      <p style="color:#94a3b8; font-size:14px; margin-bottom:28px;" id="userEmail">yogendar@ticketeasy.com</p>
 
-<h2>My Profile</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px;">
+        <div class="stat-glass-item">
+          <div style="font-size:11px; color:#06b6d4; font-weight:800; letter-spacing:0.8px;">PHONE</div>
+          <div style="font-size:14px; font-weight:700; color:white;" id="userPhone">+91 98421 77210</div>
+        </div>
+        <div class="stat-glass-item">
+          <div style="font-size:11px; color:#06b6d4; font-weight:800; letter-spacing:0.8px;">MEMBER TIER</div>
+          <div style="font-size:14px; font-weight:800; color:#10b981;">VIP Copilot Platinum</div>
+        </div>
+      </div>
 
-<div class="section">
-<h3>Basic Details</h3>
+      <div style="text-align:left; margin-bottom:28px;">
+        <h4 style="font-size:15px; font-weight:800; margin-bottom:12px; color:white;">🎟️ Recent Booked Tickets</h4>
+        <div id="recentTicketsList"></div>
+      </div>
 
-<p><b>Phone:</b> <span id="phone"></span></p>
-<p><b>Email:</b> <span id="email"></span></p>
+      <button class="action-btn" style="background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#f87171; width:100%; padding:14px; border-radius:12px; font-weight:800; cursor:pointer;" onclick="logout()">Logout</button>
+    </div>
+  </div>
 
-</div>
+  <script src="booking-modal.js?v=3.0"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("ticketEasyUser")) || { email: "yogendar@ticketeasy.com", phone: "+91 98421 77210", name: "Yogendar Verma" };
+    document.getElementById("userName").textContent = user.name || "Yogendar Verma";
+    document.getElementById("userEmail").textContent = user.email || "yogendar@ticketeasy.com";
+    document.getElementById("userPhone").textContent = user.phone || "+91 98421 77210";
 
+    const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+    const container = document.getElementById("recentTicketsList");
+    if (tickets.length === 0) {
+      container.innerHTML = `<div style="font-size:13px; color:#94a3b8; padding:12px; background:rgba(255,255,255,0.04); border-radius:10px;">No active tickets found. Book a flight or bus ticket to view it here!</div>`;
+    } else {
+      tickets.slice(0, 3).forEach(t => {
+        container.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:12px 16px; border-radius:12px; font-size:13px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+          <div><b>${t.name}</b> <br><span style="font-size:11px; color:#94a3b8;">${t.route || "Travel"}</span></div>
+          <span style="color:#10b981; font-weight:800;">${t.price}</span>
+        </div>`;
+      });
+    }
 
-<div class="section">
-
-<h3>Recent Tickets</h3>
-
-<div id="tickets"></div>
-
-</div>
-
-
-<div class="logout">
-<button onclick="logout()">Logout</button>
-</div>
-
-</div>
-
-
-<script>
-
-var firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "yourproject.firebaseapp.com",
-databaseURL: "https://yourproject-default-rtdb.firebaseio.com",
-projectId: "yourproject",
-storageBucket: "yourproject.appspot.com",
-messagingSenderId: "123456",
-appId: "123456"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-var db=firebase.database();
-
-
-/* LOAD USER DETAILS */
-
-db.ref("users").limitToLast(1).once("value",function(snapshot){
-
-snapshot.forEach(function(child){
-
-var data=child.val();
-
-document.getElementById("phone").innerText=data.phone;
-document.getElementById("email").innerText=data.email;
-
-});
-
-});
-
-
-/* LOAD RECENT TICKETS */
-
-db.ref("tickets").limitToLast(5).once("value",function(snapshot){
-
-var ticketContainer=document.getElementById("tickets");
-
-snapshot.forEach(function(child){
-
-var ticket=child.val();
-
-ticketContainer.innerHTML +=
-"<div class='ticket'>"+
-"<b>Bus:</b> "+ticket.bus+"<br>"+
-"<b>Seat:</b> "+ticket.seat+"<br>"+
-"<b>Date:</b> "+ticket.date+
-"</div>";
-
-});
-
-});
-
-
-function logout(){
-
-window.location.href="login.html";
-
-}
-
-</script>
-
+    function logout() {
+      localStorage.removeItem("ticketEasyUser");
+      window.location.href = "login.html";
+    }
+  </script>
 </body>
 </html>

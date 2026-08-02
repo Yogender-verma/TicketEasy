@@ -1,149 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login</title>
-
-<style>
-
-body {
-margin: 0;
-background-image: linear-gradient(
-to bottom,
-#f5fffa,
-#00F7FF);
-background-attachment: fixed;
-background-size: cover;
-overflow: hidden;
-display: flex;
-flex-direction: column;
-height: 100vh; 
-}
-
-.head {
-background-color: skyblue;
-color: white;
-text-align: center;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 20px;
-border-bottom: 2px solid black;
-}
-
-.logo h1 {
-margin: 0;
-}
-
-/* Login Container */
-
-.container{
-width:400px;
-background:white;
-margin:auto;
-padding:25px;
-border-radius:10px;
-box-shadow:0px 0px 10px rgba(0,0,0,0.3);
-text-align:center;
-}
-
-.container input{
-width:90%;
-padding:10px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid gray;
-}
-
-.container button{
-padding:10px 20px;
-background:#00bfff;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-</style>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | TicketEasy</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
+<body style="display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
 
-<body>
+  <div class="glass-card" style="width:420px; text-align:center; padding:40px;">
+    <div style="font-size:36px; margin-bottom:10px;">👤</div>
+    <h2 style="font-size:26px; font-weight:800; margin-bottom:6px; color:white;">Welcome Back</h2>
+    <p style="color:var(--text-muted); font-size:13px; margin-bottom:24px;">Login to manage your bookings and AI travel copilot</p>
 
+    <div style="text-align:left; margin-bottom:14px;">
+      <label>Email or Phone Number</label>
+      <input type="text" id="user" placeholder="Enter your email or phone" value="user@ticketeasy.com">
+    </div>
 
-<div class="container">
+    <div style="text-align:left; margin-bottom:20px;">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter your password" value="••••••••">
+    </div>
 
-<h2>Login</h2>
+    <button class="search-btn" style="margin-bottom:14px;" onclick="handleLogin()">🔒 SECURE LOGIN</button>
+    <button class="action-btn" style="background:rgba(255,255,255,0.08); font-size:13px;" onclick="fillDemoAndLogin()">⚡ Demo Quick Login</button>
 
-<input type="text" id="user" placeholder="Enter Email or Phone">
+    <p style="margin-top:20px; font-size:13px; color:var(--text-muted);">
+      Don't have an account? <a href="signup.html" style="color:var(--primary); font-weight:700;">Sign Up</a>
+    </p>
+  </div>
 
-<input type="password" id="password" placeholder="Enter Password">
+  <script src="booking-modal.js?v=3.0"></script>
+  <script>
+    function handleLogin() {
+      const user = document.getElementById("user").value.trim();
+      if (!user) { alert("Please enter your email or phone number."); return; }
+      localStorage.setItem("ticketEasyUser", JSON.stringify({ email: user, phone: "+91 98421 77210", name: "Yogendar Verma" }));
+      window.location.href = "Profile.html";
+    }
 
-<br>
-
-<button onclick="login()">Login</button>
-
-<p id="result"></p>
-
-</div>
-
-
-<script>
-
-var firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "yourproject.firebaseapp.com",
-databaseURL: "https://yourproject-default-rtdb.firebaseio.com",
-projectId: "yourproject",
-storageBucket: "yourproject.appspot.com",
-messagingSenderId: "123456",
-appId: "123456"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-var db = firebase.database();
-
-
-function login(){
-
-var user=document.getElementById("user").value;
-var password=document.getElementById("password").value;
-
-db.ref("users").once("value",function(snapshot){
-
-var found=false;
-
-snapshot.forEach(function(child){
-
-var data=child.val();
-
-if((data.email==user || data.phone==user) && data.password==password){
-
-found=true;
-
-}
-
-});
-
-if(found){
-
-window.location.href="profile1.html";
-
-}
-else{
-
-document.getElementById("result").innerText="Invalid login details";
-
-}
-
-});
-
-}
-
-</script>
-
+    function fillDemoAndLogin() {
+      document.getElementById("user").value = "yogendar@ticketeasy.com";
+      handleLogin();
+    }
+  </script>
 </body>
 </html>

@@ -3,576 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TicketEasy | Trip Planner</title>
+  <title>AI Trip Planner | TicketEasy</title>
   <link rel="icon" href="logo.ico">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .trip-hero {
-      text-align: center;
-      padding: 30px 20px 10px;
-    }
-    .trip-hero h2 {
-      font-size: 32px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      background: linear-gradient(90deg, #FF4400, #00bfff, #00c853);
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-    .trip-hero p {
-      color: #555;
-      font-size: 15px;
-      margin-top: 0;
-    }
-
-    /* booking card override for trip */
-    .trip-form-card {
-      background: white;
-      width: 80%;
-      margin: 20px auto;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-      border-top: 5px solid #00bfff;
-    }
-
-    .trip-form-card .row {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .trip-form-card .field {
-      flex: 1;
-      min-width: 140px;
-    }
-
-    .trip-form-card label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #00bfff;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .trip-form-card select,
-    .trip-form-card input[type="date"] {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 2px solid #e0f7ff;
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
-      background: #f5ffff;
-      transition: border 0.3s;
-    }
-
-    .trip-form-card select:focus,
-    .trip-form-card input[type="date"]:focus {
-      border-color: #00bfff;
-      outline: none;
-    }
-
-    .trip-search-btn {
-      width: 100%;
-      padding: 15px;
-      font-size: 17px;
-      font-weight: 900;
-      font-family: 'Montserrat', sans-serif;
-      letter-spacing: 1px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      background: linear-gradient(90deg, #FF4400, #ff7b00);
-      color: white;
-      transition: opacity 0.3s, transform 0.2s;
-      box-shadow: 0 4px 15px rgba(255,68,0,0.35);
-    }
-    .trip-search-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-    }
-
-    /* ── Trip Result ── */
-    #tripResult {
-      width: 80%;
-      margin: 30px auto;
-    }
-
-    .itinerary-box {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      border-top: 5px solid #FF4400;
-    }
-    .itinerary-box h3 {
-      color: #FF4400;
-      font-family: 'Montserrat', sans-serif;
-      margin-bottom: 18px;
-      font-size: 20px;
-    }
-    .day-row {
-      display: flex;
-      gap: 15px;
-      align-items: flex-start;
-      padding: 12px 15px;
-      margin: 10px 0;
-      background: linear-gradient(to right, #f5fffa, #e0fdff);
-      border-radius: 10px;
-      border-left: 4px solid #00bfff;
-    }
-    .day-label {
-      font-weight: 800;
-      font-family: 'Montserrat', sans-serif;
-      color: #FF4400;
-      min-width: 55px;
-      font-size: 13px;
-    }
-    .day-desc { font-size: 14px; color: #333; line-height: 1.5; }
-
-    .book-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-    .book-row button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      cursor: pointer;
-      transition: opacity 0.3s, transform 0.2s;
-    }
-    .book-row button:hover { opacity: 0.85; transform: translateY(-2px); }
-
-    /* ── Package Cards ── */
-    .packages-section {
-      width: 88%;
-      margin: 40px auto;
-      padding: 40px;
-      background: white;
-      border-radius: 18px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .packages-section h2 {
-      font-size: 26px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      margin-bottom: 30px;
-      color: #262626;
-    }
-    .packages-grid {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .trip-card {
-      width: 230px;
-      padding: 22px 18px;
-      border-radius: 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .trip-card:hover { transform: translateY(-8px); box-shadow: 0 14px 30px rgba(0,0,0,0.18); }
-
-    /* Each card gets its own gradient */
-    .trip-card.goa      { background: linear-gradient(135deg, #fff9c4, #ffe082); }
-    .trip-card.manali   { background: linear-gradient(135deg, #e3f2fd, #90caf9); }
-    .trip-card.kerala   { background: linear-gradient(135deg, #e8f5e9, #a5d6a7); }
-    .trip-card.jaipur   { background: linear-gradient(135deg, #fce4ec, #f48fb1); }
-    .trip-card.kashmir  { background: linear-gradient(135deg, #e8eaf6, #9fa8da); }
-    .trip-card.andaman  { background: linear-gradient(135deg, #e0f7fa, #4dd0e1); }
-    .trip-card.rishikesh{ background: linear-gradient(135deg, #f1f8e9, #aed581); }
-    .trip-card.leh      { background: linear-gradient(135deg, #efebe9, #bcaaa4); }
-
-    .trip-emoji { font-size: 42px; margin-bottom: 8px; }
-    .trip-card h3 {
-      margin: 6px 0;
-      font-size: 15px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      color: #262626;
-    }
-    .trip-card p { font-size: 12px; color: #444; margin: 3px 0; }
-    .trip-card .fare { font-size: 15px; font-weight: 700; color: #1a7a1a; margin: 8px 0; }
-
-    .trip-tags {
-      display: flex;
-      gap: 4px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 8px 0;
-    }
-    .trip-tags span {
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 700;
-      background: rgba(255,255,255,0.6);
-      color: #333;
-    }
-
-    .trip-card button {
-      margin-top: 10px;
-      padding: 8px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #FF4400;
-      color: white;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      transition: opacity 0.3s;
-    }
-    .trip-card button:hover { opacity: 0.8; }
-  </style>
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
-<body>
+<body style="padding-bottom: 60px;">
 
-  <!-- ── Hero Title ── -->
-  <div class="trip-hero">
-    <h2>🗺️ Plan Your Perfect Trip</h2>
-    <p>Choose your destination, set your dates and get a full day-by-day itinerary instantly</p>
+  <div class="route-header">
+    🗺️ TicketEasy AI Trip & Itinerary Planner
   </div>
 
-  <!-- ── Trip Search Form ── -->
-  <div class="trip-form-card">
+  <div class="booking-container">
+    <div class="glass-card">
+      <div class="search-title">✨ Create Your Custom AI Travel Itinerary</div>
+      
+      <div class="row">
+        <div class="field">
+          <label>From Origin</label>
+          <select id="tripFrom">
+            <option>Hyderabad</option>
+            <option>Delhi</option>
+            <option>Mumbai</option>
+            <option>Bengaluru</option>
+            <option>Chennai</option>
+          </select>
+        </div>
 
-    <div class="row">
-      <div class="field">
-        <label>✈️ Trip From</label>
-        <select id="tripFrom">
-          <option>Select Starting City</option>
-          <option>Hyderabad</option>
-          <option>Delhi</option>
-          <option>Mumbai</option>
-          <option>Chennai</option>
-          <option>Bengaluru</option>
-          <option>Kolkata</option>
-          <option>Pune</option>
-          <option>Ahmedabad</option>
-        </select>
+        <div class="field">
+          <label>To Destination</label>
+          <select id="tripTo">
+            <option>Goa</option>
+            <option>Manali</option>
+            <option>Kerala</option>
+            <option>Jaipur</option>
+            <option>Kashmir</option>
+            <option>Andaman</option>
+            <option>Rishikesh</option>
+            <option>Leh Ladakh</option>
+          </select>
+        </div>
       </div>
-      <div class="field">
-        <label>🏖️ Trip To</label>
-        <select id="tripTo">
-          <option>Select Destination</option>
-          <option>Goa</option>
-          <option>Manali</option>
-          <option>Ooty</option>
-          <option>Jaipur</option>
-          <option>Kerala</option>
-          <option>Kashmir</option>
-          <option>Andaman</option>
-          <option>Leh Ladakh</option>
-          <option>Coorg</option>
-          <option>Rishikesh</option>
-        </select>
+
+      <div class="row">
+        <div class="field">
+          <label>Start Date</label>
+          <input type="date" id="tripStart">
+        </div>
+        <div class="field">
+          <label>End Date</label>
+          <input type="date" id="tripEnd">
+        </div>
+        <div class="field">
+          <label>Budget Level</label>
+          <select id="tripBudget">
+            <option>Budget (~₹8,000)</option>
+            <option>Standard (~₹15,000)</option>
+            <option>Luxury (~₹30,000+)</option>
+          </select>
+        </div>
       </div>
+
+      <button class="search-btn" onclick="generateItinerary()">✨ GENERATE AI TRIP ITINERARY</button>
     </div>
-
-    <div class="row">
-      <div class="field">
-        <label>📅 Start Date</label>
-        <input type="date" id="tripStart">
-      </div>
-      <div class="field">
-        <label>📅 End Date</label>
-        <input type="date" id="tripEnd">
-      </div>
-      <div class="field">
-        <label>👥 Travellers</label>
-        <select id="tripTravellers">
-          <option>1 Adult</option>
-          <option>2 Adults</option>
-          <option>3 Adults</option>
-          <option>Family</option>
-          <option>Group (5+)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label>🎯 Trip Type</label>
-        <select id="tripType">
-          <option>Adventure</option>
-          <option>Beach</option>
-          <option>Hill Station</option>
-          <option>Cultural</option>
-          <option>Pilgrimage</option>
-          <option>Honeymoon</option>
-          <option>Wildlife</option>
-          <option>Budget</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>💰 Budget (₹)</label>
-        <select id="tripBudget">
-          <option>Under ₹5,000</option>
-          <option>₹5,000 - ₹15,000</option>
-          <option>₹15,000 - ₹30,000</option>
-          <option>₹30,000 - ₹60,000</option>
-          <option>Above ₹60,000</option>
-        </select>
-      </div>
-    </div>
-
-    <button class="trip-search-btn" onclick="planTrip()">🗺️ PLAN MY TRIP</button>
-
   </div>
 
-  <!-- ── Itinerary Result ── -->
-  <div id="tripResult" style="display:none;"></div>
+  <!-- ITINERARY RESULT CONTAINER -->
+  <div class="booking-container" id="itineraryContainer" style="display:none;"></div>
 
-  <!-- ── Popular Packages ── -->
-  <div class="packages-section">
-    <h2>🌟 Popular Trip Packages</h2>
-    <div class="packages-grid">
-
-      <div class="trip-card goa" onclick="quickPlan('Goa')">
-        <div class="trip-emoji">🏖️</div>
-        <h3>Goa Beach Escape</h3>
-        <p>3 Days | Beach + Nightlife</p>
-        <p class="fare">From ₹8,500</p>
-        <div class="trip-tags"><span>Beach</span><span>Party</span><span>Relaxing</span></div>
-        <button>Explore</button>
+  <!-- POPULAR AI TRIP PACKAGES -->
+  <div class="offers-section">
+    <h2>🌴 Popular Destination Packages</h2>
+    <div class="offers-container">
+      
+      <div class="offer-card" onclick="quickSelect('Goa')">
+        <h3>🏖️ Goa Beach Escape</h3>
+        <p>3 Days • Water Sports & Nightlife</p>
+        <div class="price-tag">From ₹8,500</div>
+        <button onclick="openBookingModal({title:'Goa 3-Day Resort Package', type:'hotel', route:'Goa Beachfront', price:8500})">Book Package</button>
       </div>
 
-      <div class="trip-card manali" onclick="quickPlan('Manali')">
-        <div class="trip-emoji">🏔️</div>
-        <h3>Manali Adventure</h3>
-        <p>5 Days | Snow + Trekking</p>
-        <p class="fare">From ₹12,000</p>
-        <div class="trip-tags"><span>Adventure</span><span>Snow</span><span>Trek</span></div>
-        <button>Explore</button>
+      <div class="offer-card" onclick="quickSelect('Manali')">
+        <h3>🏔️ Manali Snow Adventure</h3>
+        <p>5 Days • Solang Valley & Rohtang Pass</p>
+        <div class="price-tag">From ₹12,000</div>
+        <button onclick="openBookingModal({title:'Manali Snow Resort', type:'hotel', route:'Manali Valley', price:12000})">Book Package</button>
       </div>
 
-      <div class="trip-card kerala" onclick="quickPlan('Kerala')">
-        <div class="trip-emoji">🌴</div>
-        <h3>Kerala Backwaters</h3>
-        <p>4 Days | Nature + Houseboat</p>
-        <p class="fare">From ₹14,000</p>
-        <div class="trip-tags"><span>Nature</span><span>Houseboat</span><span>Relaxing</span></div>
-        <button>Explore</button>
+      <div class="offer-card" onclick="quickSelect('Kerala')">
+        <h3>🌴 Kerala Backwaters</h3>
+        <p>4 Days • Houseboat Cruise & Tea Gardens</p>
+        <div class="price-tag">From ₹14,000</div>
+        <button onclick="openBookingModal({title:'Alleppey Houseboat Stay', type:'hotel', route:'Kerala Backwaters', price:14000})">Book Package</button>
       </div>
 
-      <div class="trip-card jaipur" onclick="quickPlan('Jaipur')">
-        <div class="trip-emoji">🏯</div>
-        <h3>Jaipur Royal Tour</h3>
-        <p>3 Days | Forts + Culture</p>
-        <p class="fare">From ₹7,500</p>
-        <div class="trip-tags"><span>Cultural</span><span>Heritage</span><span>Forts</span></div>
-        <button>Explore</button>
-      </div>
-
-      <div class="trip-card kashmir" onclick="quickPlan('Kashmir')">
-        <div class="trip-emoji">❄️</div>
-        <h3>Kashmir Paradise</h3>
-        <p>6 Days | Valleys + Snow</p>
-        <p class="fare">From ₹22,000</p>
-        <div class="trip-tags"><span>Snow</span><span>Scenic</span><span>Romantic</span></div>
-        <button>Explore</button>
-      </div>
-
-      <div class="trip-card andaman" onclick="quickPlan('Andaman')">
-        <div class="trip-emoji">🤿</div>
-        <h3>Andaman Islands</h3>
-        <p>5 Days | Diving + Beach</p>
-        <p class="fare">From ₹25,000</p>
-        <div class="trip-tags"><span>Beach</span><span>Diving</span><span>Island</span></div>
-        <button>Explore</button>
-      </div>
-
-      <div class="trip-card rishikesh" onclick="quickPlan('Rishikesh')">
-        <div class="trip-emoji">🌊</div>
-        <h3>Rishikesh Thrills</h3>
-        <p>3 Days | Rafting + Yoga</p>
-        <p class="fare">From ₹6,000</p>
-        <div class="trip-tags"><span>Adventure</span><span>Rafting</span><span>Yoga</span></div>
-        <button>Explore</button>
-      </div>
-
-      <div class="trip-card leh" onclick="quickPlan('Leh Ladakh')">
-        <div class="trip-emoji">🛣️</div>
-        <h3>Leh Ladakh Road Trip</h3>
-        <p>7 Days | Bikes + Mountains</p>
-        <p class="fare">From ₹30,000</p>
-        <div class="trip-tags"><span>Road Trip</span><span>Bikes</span><span>Mountains</span></div>
-        <button>Explore</button>
+      <div class="offer-card" onclick="quickSelect('Kashmir')">
+        <h3>❄️ Kashmir Paradise</h3>
+        <p>6 Days • Gulmarg Gondola & Houseboat</p>
+        <div class="price-tag">From ₹22,000</div>
+        <button onclick="openBookingModal({title:'Srinagar Houseboat Package', type:'hotel', route:'Kashmir Valley', price:22000})">Book Package</button>
       </div>
 
     </div>
   </div>
 
-  <script src="scripts.js"></script>
+  <script src="booking-modal.js?v=3.0"></script>
   <script>
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dayAfter = new Date();
+    dayAfter.setDate(dayAfter.getDate() + 4);
+
+    document.getElementById("tripStart").value = tomorrow.toISOString().split('T')[0];
+    document.getElementById("tripEnd").value = dayAfter.toISOString().split('T')[0];
 
     const itineraries = {
-      "Goa": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive in Goa → Check-in at Beach Resort → Baga Beach evening walk" },
-          { day:"Day 2", desc:"🏖️ Calangute Beach → Water Sports → Flea Market at Anjuna → Nightlife at Tito's Lane" },
-          { day:"Day 3", desc:"⛪ Old Goa Churches → Spice Plantation Tour → Departure" }
-        ]
-      },
-      "Manali": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive Manali → Check-in → Mall Road stroll + local food" },
-          { day:"Day 2", desc:"🏔️ Rohtang Pass → Snow activities → Solang Valley" },
-          { day:"Day 3", desc:"🛕 Hadimba Temple → Old Manali → River Beas walk" },
-          { day:"Day 4", desc:"🌲 Kullu Rafting → Manikaran Gurudwara → Hot springs" },
-          { day:"Day 5", desc:"🏠 Check-out → Departure" }
-        ]
-      },
-      "Kerala": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive Kochi → Fort Kochi walk → Chinese Fishing Nets at sunset" },
-          { day:"Day 2", desc:"🌴 Drive to Munnar → Tea Plantations → Eravikulam National Park" },
-          { day:"Day 3", desc:"🌊 Drive to Alleppey → Houseboat check-in → Backwaters cruise" },
-          { day:"Day 4", desc:"🏖️ Drive to Kovalam Beach → Beach relaxation → Departure" }
-        ]
-      },
-      "Jaipur": {
-        days: [
-          { day:"Day 1", desc:"🚂 Arrive Jaipur → Amber Fort → Jal Mahal views" },
-          { day:"Day 2", desc:"🏯 City Palace → Hawa Mahal → Jantar Mantar → Bapu Bazaar shopping" },
-          { day:"Day 3", desc:"🐘 Nahargarh Fort → Birla Temple → Departure" }
-        ]
-      },
-      "Kashmir": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive Srinagar → Dal Lake Shikara ride → Houseboat stay" },
-          { day:"Day 2", desc:"🌸 Mughal Gardens → Shalimar Bagh → Nishat Bagh → Local Wazwan dinner" },
-          { day:"Day 3", desc:"🏔️ Drive to Gulmarg → Gondola ride → Snow activities" },
-          { day:"Day 4", desc:"🌊 Drive to Pahalgam → Lidder River walk → Betaab Valley" },
-          { day:"Day 5", desc:"🛍️ Lal Chowk shopping → Local crafts → Departure prep" },
-          { day:"Day 6", desc:"✈️ Departure from Srinagar" }
-        ]
-      },
-      "Andaman": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive Port Blair → Cellular Jail → Sound & Light Show" },
-          { day:"Day 2", desc:"⛵ Ferry to Havelock → Radhanagar Beach (Asia's best beach!)" },
-          { day:"Day 3", desc:"🤿 Elephant Beach Snorkelling → Glass-bottom boat ride" },
-          { day:"Day 4", desc:"🐠 Neil Island → Scuba Diving → Coral reef exploration" },
-          { day:"Day 5", desc:"🏠 Return Port Blair → Shopping → Departure" }
-        ]
-      },
-      "Rishikesh": {
-        days: [
-          { day:"Day 1", desc:"🚌 Arrive Rishikesh → Laxman Jhula → Triveni Ghat Aarti at sunset" },
-          { day:"Day 2", desc:"🌊 White Water Rafting (16km stretch) → Bungee Jumping → Beach camp" },
-          { day:"Day 3", desc:"🧘 Yoga & Meditation session → Beatles Ashram → Departure" }
-        ]
-      },
-      "Leh Ladakh": {
-        days: [
-          { day:"Day 1", desc:"✈️ Arrive Leh → Acclimatization rest → Leh Palace walk" },
-          { day:"Day 2", desc:"🛕 Thiksey Monastery → Hemis Monastery → Shanti Stupa" },
-          { day:"Day 3", desc:"🏍️ Magnetic Hill → Gurudwara Pathar Sahib → Confluence of Indus & Zanskar" },
-          { day:"Day 4", desc:"🏔️ Nubra Valley via Khardung La (world's highest motorable road)" },
-          { day:"Day 5", desc:"🐪 Bactrian Camel ride at Hunder Desert → Drive back to Leh" },
-          { day:"Day 6", desc:"🌊 Pangong Lake (3 Idiots spot!) → Overnight camp" },
-          { day:"Day 7", desc:"🏠 Return Leh → Shopping → Departure" }
-        ]
-      },
-      "Ooty": {
-        days: [
-          { day:"Day 1", desc:"🚂 Arrive Ooty via Nilgiri Mountain Railway → Botanical Gardens → Ooty Lake" },
-          { day:"Day 2", desc:"🌿 Doddabetta Peak → Tea Factory visit → Rose Garden" },
-          { day:"Day 3", desc:"🌲 Mudumalai Wildlife Sanctuary → Departure" }
-        ]
-      },
-      "Coorg": {
-        days: [
-          { day:"Day 1", desc:"🚌 Arrive Coorg → Coffee Plantation tour → Raja's Seat sunset" },
-          { day:"Day 2", desc:"💦 Abbey Falls → Namdroling Monastery → Dubare Elephant Camp" },
-          { day:"Day 3", desc:"🌄 Talakaveri (source of Cauvery river) → Bhagamandala → Departure" }
-        ]
-      }
+      "Goa": [
+        "Day 1: Arrive in North Goa → Check-in at South Goa Beach Resort → Baga Beach Sunset Walk",
+        "Day 2: Anjuna Beach Watersports → Scuba Diving at Grand Island → Tito's Nightlife",
+        "Day 3: Old Goa Churches → Mandovi River Dinner Cruise → Departure"
+      ],
+      "Manali": [
+        "Day 1: Arrive in Manali → Check-in → Mall Road stroll and local trout dining",
+        "Day 2: Solang Valley Skiing & Paragliding → Rohtang Pass snow point",
+        "Day 3: Hadimba Temple → Jogini Waterfalls trek → Departure"
+      ],
+      "Kerala": [
+        "Day 1: Arrive in Kochi → Fort Kochi fishing nets → Drive to Munnar Tea Gardens",
+        "Day 2: Eravikulam National Park → Mattupetty Dam boat ride",
+        "Day 3: Alleppey Houseboat cruise & backwater stay → Departure"
+      ]
     };
 
-    function planTrip() {
-      const from       = document.getElementById("tripFrom").value;
-      const to         = document.getElementById("tripTo").value;
-      const start      = document.getElementById("tripStart").value;
-      const end        = document.getElementById("tripEnd").value;
-      const travellers = document.getElementById("tripTravellers").value;
-      const budget     = document.getElementById("tripBudget").value;
+    function generateItinerary() {
+      const dest = document.getElementById("tripTo").value;
+      const days = itineraries[dest] || [
+        "Day 1: Arrival & Hotel Check-in → Local sightseeing",
+        "Day 2: Adventure activities & key city landmarks",
+        "Day 3: Local shopping & departure"
+      ];
 
-      if (from === "Select Starting City" || to === "Select Destination") {
-        alert("Please select both From and To cities!");
-        return;
-      }
-      showItinerary(to, from, travellers, start, end, budget);
+      const container = document.getElementById("itineraryContainer");
+      container.style.display = "block";
+      
+      let html = `<div class="glass-card">
+        <h3 style="color:var(--primary); font-size:22px; margin-bottom:16px;">✨ Custom Itinerary for ${dest}</h3>`;
+
+      days.forEach(d => {
+        html += `<div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--primary); padding:12px 16px; margin-bottom:10px; border-radius:8px; font-size:14px;">${d}</div>`;
+      });
+
+      html += `<div style="display:flex; gap:10px; margin-top:20px;">
+        <button class="search-btn" style="flex:1;" onclick="openBookingModal({title:'${dest} Package', type:'hotel', route:'${dest}', price:8500})">Book Flight + Hotel</button>
+      </div></div>`;
+
+      container.innerHTML = html;
+      container.scrollIntoView({ behavior: "smooth" });
     }
 
-    function quickPlan(destination) {
-      showItinerary(destination, "Your City", "2 Adults", "", "", "");
+    function quickSelect(city) {
+      document.getElementById("tripTo").value = city;
+      generateItinerary();
     }
-
-    function showItinerary(destination, from, travellers, start, end, budget) {
-      const resultDiv = document.getElementById("tripResult");
-      const data = itineraries[destination];
-
-      if (!data) {
-        resultDiv.style.display = "block";
-        resultDiv.innerHTML = `
-          <div class="itinerary-box">
-            <h3>✈️ Custom Trip: ${from} → ${destination}</h3>
-            <p style="color:#555">Itinerary coming soon! Meanwhile book your travel below.</p>
-            <div class="book-row">
-              <button style="background:#00bfff;color:white" onclick="window.location.href='flight.html'">✈️ Book Flights</button>
-              <button style="background:#28a745;color:white" onclick="window.location.href='hotel.html'">🏨 Book Hotels</button>
-              <button style="background:#FF4400;color:white" onclick="window.location.href='bus.html'">🚌 Book Buses</button>
-            </div>
-          </div>`;
-        resultDiv.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-
-      let dateInfo   = start ? ` &nbsp;📅 ${start} → ${end || "?"}` : "";
-      let budgetInfo = budget ? ` &nbsp;💰 ${budget}` : "";
-
-      const daysHTML = data.days.map(d => `
-        <div class="day-row">
-          <div class="day-label">${d.day}</div>
-          <div class="day-desc">${d.desc}</div>
-        </div>`).join("");
-
-      resultDiv.style.display = "block";
-      resultDiv.innerHTML = `
-        <div class="itinerary-box">
-          <h3>🗺️ ${destination} Itinerary &nbsp;|&nbsp; ${travellers}${dateInfo}${budgetInfo}</h3>
-          ${daysHTML}
-          <div class="book-row">
-            <button style="background:#00bfff;color:white;border-radius:10px;" onclick="window.location.href='flight.html'">✈️ Book Flights</button>
-            <button style="background:#28a745;color:white;border-radius:10px;" onclick="window.location.href='hotel.html'">🏨 Book Hotels</button>
-            <button style="background:#FF4400;color:white;border-radius:10px;" onclick="window.location.href='bus.html'">🚌 Book Buses</button>
-            <button style="background:#9c27b0;color:white;border-radius:10px;" onclick="window.location.href='trains.html'">🚆 Book Trains</button>
-          </div>
-        </div>`;
-
-      resultDiv.scrollIntoView({ behavior: "smooth" });
-    }
-
   </script>
-
 </body>
 </html>

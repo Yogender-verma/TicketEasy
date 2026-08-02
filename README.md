@@ -129,4 +129,4 @@ Visit **[http://127.0.0.1:3000](http://127.0.0.1:3000)** in your browser!
 
 ## 🔒 Copyright & Ownership
 
-© 2026 **TicketEasy**. All rights reserved. Developed by **[Yogendar Verma](https://github.com/Yogender-verma)**. Proprietary travel booking platform software.
+© 2026 **TicketEasy**. All rights reserved. Developed by **[Yogender Verma](https://github.com/Yogender-verma)**. Proprietary travel booking platform software.

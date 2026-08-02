@@ -1,264 +1,78 @@
-```html
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Train Tickets</title>
-
-<style>
-
-body{
-margin:0;
-background-image:linear-gradient(
-to bottom,
-#f5fffa,
-#00F7FF);
-background-attachment:fixed;
-background-size:cover;
-font-family:Arial;
-}
-
-.header{
-text-align:center;
-padding:20px;
-font-size:22px;
-font-weight:bold;
-color:#262626;
-}
-
-.train-container{
-width:80%;
-margin:auto;
-}
-
-.train-card{
-background:linear-gradient(
-to bottom,
-#f5fffa,
-#00F7FF);
-padding:20px;
-margin:15px 0;
-border-radius:10px;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.train-info{
-font-size:14px;
-}
-
-.train-name{
-font-size:18px;
-font-weight:bold;
-margin-bottom:5px;
-}
-
-.price{
-font-size:18px;
-color:green;
-font-weight:bold;
-}
-
-.book-btn{
-background:#FF4400;
-border:none;
-padding:10px 15px;
-border-radius:6px;
-color:white;
-cursor:pointer;
-}
-
-.book-btn:hover{
-opacity:0.8;
-}
-
-.section-title{
-text-align:center;
-font-size:20px;
-margin-top:25px;
-font-weight:bold;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Search Results | TicketEasy</title>
+  <link rel="icon" href="logo.ico">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
+<body style="padding-bottom: 60px;">
 
-<body>
+  <div class="route-header" id="routeHeader">
+    Searching trains...
+  </div>
 
-<div class="header" id="routeHeader"></div>
+  <div class="results-container">
+    <h3 style="margin-bottom:16px; font-weight:800; font-size:20px;">Available Trains</h3>
+    <div id="goingTrains"></div>
 
-<div class="train-container">
+    <h3 style="margin-top:32px; margin-bottom:16px; font-weight:800; font-size:20px;">Return Trains</h3>
+    <div id="returnTrains"></div>
+  </div>
 
-<div class="section-title">Available Trains</div>
-<div id="goingTrains"></div>
+  <script src="booking-modal.js?v=3.0"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    let from = params.get("from") || "Secunderabad (SC)";
+    let to = params.get("to") || "Vijayawada (BZA)";
+    let date = params.get("date") || "Tomorrow";
+    let trainClass = params.get("class") || "All Classes";
+    let quota = params.get("quota") || "General";
 
-<div class="section-title">Return Trains</div>
-<div id="returnTrains"></div>
+    document.getElementById("routeHeader").innerHTML = `🚆 Route: <b>${from} → ${to}</b> | Date: <b>${date}</b> | Class: <b>${trainClass}</b> | Quota: <b>${quota}</b>`;
 
-</div>
+    const trains = [
+      { name: "Krishna Express", number: "17405", departure: "06:00 AM", arrival: "11:30 AM", price: 350 },
+      { name: "Godavari Express", number: "12727", departure: "07:45 AM", arrival: "12:40 PM", price: 450 },
+      { name: "Satavahana Express", number: "12713", departure: "09:30 AM", arrival: "02:45 PM", price: 380 },
+      { name: "Falaknuma Express", number: "12703", departure: "12:15 PM", arrival: "05:20 PM", price: 520 }
+    ];
 
-<script>
+    function renderTrainList(list, containerId) {
+      const container = document.getElementById(containerId);
+      list.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `
+          <div>
+            <div class="train-name">🚆 ${t.name} <span style="font-size:13px; color:var(--text-muted);">(${t.number})</span></div>
+            <div class="result-details">
+              Departs: <b>${t.departure}</b> • Arrives: <b>${t.arrival}</b><br>
+              Quota: <span style="color:var(--primary); font-weight:700;">${quota}</span> • Class: <b>${trainClass}</b>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div class="price-tag">₹${t.price}</div>
+            <button class="book-btn" onclick='triggerTrainBooking("${t.name}", "${t.number}", ${t.price})'>Book Berth</button>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
 
-/* READ PARAMETERS */
+    renderTrainList(trains, "goingTrains");
+    renderTrainList(trains.map(t => ({...t, number: parseInt(t.number)+1+"", departure: "05:30 AM", arrival: "11:00 AM"})), "returnTrains");
 
-const params=new URLSearchParams(window.location.search);
-
-let from=params.get("from");
-let to=params.get("to");
-let date=params.get("date");
-let trainClass=params.get("class");
-let quota=params.get("quota");
-
-if(!from) from="Secunderabad (SC)";
-if(!to) to="Vijayawada (BZA)";
-if(!date) date="Today";
-if(!trainClass) trainClass="All Classes";
-if(!quota) quota="General";
-
-/* HEADER */
-
-document.getElementById("routeHeader").innerHTML=
-"Route : "+from+" → "+to+
-" | Date : "+date+
-" | Class : "+trainClass+
-" | Quota : "+quota;
-
-
-/* TRAIN DATABASE */
-
-const trains=[
-
-{route:"Secunderabad (SC)_Vijayawada (BZA)",name:"Krishna Express",number:"17405",departure:"06:00 AM",arrival:"11:30 AM"},
-{route:"Secunderabad (SC)_Vijayawada (BZA)",name:"Godavari Express",number:"12727",departure:"07:45 AM",arrival:"12:40 PM"},
-{route:"Secunderabad (SC)_Vijayawada (BZA)",name:"Satavahana Express",number:"12713",departure:"09:30 AM",arrival:"02:45 PM"},
-{route:"Secunderabad (SC)_Vijayawada (BZA)",name:"Falaknuma Express",number:"12703",departure:"12:15 PM",arrival:"05:20 PM"},
-
-{route:"Vijayawada (BZA)_Secunderabad (SC)",name:"Krishna Express",number:"17406",departure:"05:30 AM",arrival:"11:00 AM"},
-{route:"Vijayawada (BZA)_Secunderabad (SC)",name:"Godavari Express",number:"12728",departure:"08:00 AM",arrival:"01:00 PM"},
-{route:"Vijayawada (BZA)_Secunderabad (SC)",name:"Satavahana Express",number:"12714",departure:"10:30 AM",arrival:"03:30 PM"},
-{route:"Vijayawada (BZA)_Secunderabad (SC)",name:"Falaknuma Express",number:"12704",departure:"01:15 PM",arrival:"06:20 PM"},
-
-{route:"Chennai Central (MAS)_Visakhapatnam (VSKP)",name:"Coromandel Express",number:"12841",departure:"07:00 AM",arrival:"07:30 PM"},
-{route:"Chennai Central (MAS)_Visakhapatnam (VSKP)",name:"Howrah Mail",number:"12840",departure:"10:00 AM",arrival:"10:30 PM"},
-{route:"Chennai Central (MAS)_Visakhapatnam (VSKP)",name:"East Coast Express",number:"18645",departure:"02:30 PM",arrival:"03:00 AM"},
-{route:"Chennai Central (MAS)_Visakhapatnam (VSKP)",name:"Visakha Express",number:"17015",departure:"05:30 PM",arrival:"07:30 AM"},
-
-{route:"Visakhapatnam (VSKP)_Chennai Central (MAS)",name:"Coromandel Express",number:"12842",departure:"05:30 AM",arrival:"06:00 PM"},
-{route:"Visakhapatnam (VSKP)_Chennai Central (MAS)",name:"Howrah Mail",number:"12839",departure:"09:30 AM",arrival:"09:30 PM"},
-{route:"Visakhapatnam (VSKP)_Chennai Central (MAS)",name:"East Coast Express",number:"18646",departure:"01:00 PM",arrival:"02:00 AM"},
-{route:"Visakhapatnam (VSKP)_Chennai Central (MAS)",name:"Visakha Express",number:"17016",departure:"06:00 PM",arrival:"08:00 AM"},
-
-{route:"Bengaluru (SBC)_Mumbai Central (BCT)",name:"Udyan Express",number:"11301",departure:"07:30 AM",arrival:"09:30 PM"},
-{route:"Bengaluru (SBC)_Mumbai Central (BCT)",name:"Mumbai Express",number:"11014",departure:"10:00 AM",arrival:"11:45 PM"},
-{route:"Bengaluru (SBC)_Mumbai Central (BCT)",name:"Duronto Express",number:"12220",departure:"03:30 PM",arrival:"05:30 AM"},
-{route:"Bengaluru (SBC)_Mumbai Central (BCT)",name:"Garib Rath",number:"12708",departure:"08:30 PM",arrival:"10:00 AM"},
-
-{route:"Mumbai Central (BCT)_Bengaluru (SBC)",name:"Udyan Express",number:"11302",departure:"06:00 AM",arrival:"08:00 PM"},
-{route:"Mumbai Central (BCT)_Bengaluru (SBC)",name:"Mumbai Express",number:"11013",departure:"09:00 AM",arrival:"10:30 PM"},
-{route:"Mumbai Central (BCT)_Bengaluru (SBC)",name:"Duronto Express",number:"12219",departure:"02:30 PM",arrival:"04:30 AM"},
-{route:"Mumbai Central (BCT)_Bengaluru (SBC)",name:"Garib Rath",number:"12707",departure:"07:30 PM",arrival:"09:30 AM"},
-
-{route:"New Delhi (NDLS)_Kolkata (HWH)",name:"Rajdhani Express",number:"12302",departure:"04:55 PM",arrival:"10:00 AM"},
-{route:"New Delhi (NDLS)_Kolkata (HWH)",name:"Duronto Express",number:"12274",departure:"06:30 PM",arrival:"11:00 AM"},
-{route:"New Delhi (NDLS)_Kolkata (HWH)",name:"Poorva Express",number:"12304",departure:"08:00 PM",arrival:"01:30 PM"},
-{route:"New Delhi (NDLS)_Kolkata (HWH)",name:"Sealdah Express",number:"12314",departure:"10:30 PM",arrival:"03:30 PM"},
-
-{route:"Kolkata (HWH)_New Delhi (NDLS)",name:"Rajdhani Express",number:"12301",departure:"04:45 PM",arrival:"10:30 AM"},
-{route:"Kolkata (HWH)_New Delhi (NDLS)",name:"Duronto Express",number:"12273",departure:"06:15 PM",arrival:"11:15 AM"},
-{route:"Kolkata (HWH)_New Delhi (NDLS)",name:"Poorva Express",number:"12303",departure:"08:30 PM",arrival:"02:00 PM"},
-{route:"Kolkata (HWH)_New Delhi (NDLS)",name:"Sealdah Express",number:"12313",departure:"10:00 PM",arrival:"04:00 PM"}
-
-];
-
-
-/* ROUTE FILTER */
-
-let routeKey=from+"_"+to;
-let returnKey=to+"_"+from;
-
-let going=trains.filter(train=>train.route===routeKey);
-let returning=trains.filter(train=>train.route===returnKey);
-
-
-/* BOOK TRAIN TICKET */
-
-function bookTrainTicket(train){
-
-let tickets=JSON.parse(localStorage.getItem("tickets"))||[];
-
-let ticket={
-type:"Train Ticket",
-name:train.name,
-number:train.number,
-route:from+" → "+to,
-departure:train.departure,
-arrival:train.arrival,
-date:date,
-class:trainClass,
-quota:quota,
-booked:new Date().toLocaleString()
-};
-
-tickets.push(ticket);
-
-localStorage.setItem("tickets",JSON.stringify(tickets));
-
-window.location.href="MT.html";
-
-}
-
-
-/* DISPLAY FUNCTION */
-
-function displayTrains(list,containerID){
-
-const container=document.getElementById(containerID);
-
-if(list.length===0){
-container.innerHTML="<p style='text-align:center'>No trains found</p>";
-return;
-}
-
-list.forEach(train=>{
-
-let card=document.createElement("div");
-
-card.className="train-card";
-
-card.innerHTML=`
-
-<div class="train-info">
-
-<div class="train-name">
-${train.name} (${train.number})
-</div>
-
-Departure : ${train.departure}<br>
-Arrival : ${train.arrival}<br>
-Class : ${trainClass}<br>
-Quota : ${quota}
-
-</div>
-
-<div>
-<div class="price">Available</div>
-<button class="book-btn" onclick='bookTrainTicket(${JSON.stringify(train)})'>
-Book Ticket
-</button>
-</div>
-
-`;
-
-container.appendChild(card);
-
-});
-
-}
-
-displayTrains(going,"goingTrains");
-displayTrains(returning,"returnTrains");
-
-</script>
-
+    function triggerTrainBooking(name, number, price) {
+      openBookingModal({
+        title: `${name} (${number})`,
+        type: "train",
+        subtitle: `${from} → ${to} (${quota})`,
+        route: `${from} → ${to}`,
+        date: date,
+        price: price
+      });
+    }
+  </script>
 </body>
 </html>
-```
